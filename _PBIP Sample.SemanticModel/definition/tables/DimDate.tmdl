@@ -1,0 +1,444 @@
+table DimDate
+	isHidden
+	lineageTag: 914c8963-1212-4611-85ce-41c1ab478667
+
+	column DimDateKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f178f930-27de-425e-b07a-c8c1cd567de6
+		summarizeBy: count
+		sourceColumn: DimDateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: e8b8ea17-d47c-46de-8b87-c84427e2948e
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DateName
+		dataType: string
+		isHidden
+		lineageTag: f1bd194a-6755-4950-8564-f6f72ef6314c
+		summarizeBy: none
+		sourceColumn: DateName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateNameCA
+		dataType: string
+		isHidden
+		lineageTag: 1cefe446-ff89-4bf3-ab08-7a4d02f51bb2
+		summarizeBy: none
+		sourceColumn: DateNameCA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeek
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8296b82b-3fd9-436a-9bb9-ca5293a44d8d
+		summarizeBy: sum
+		sourceColumn: DayOfWeek
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeekName
+		dataType: string
+		isHidden
+		lineageTag: 0e11017f-7949-4dff-82ce-ba8fdffd6040
+		summarizeBy: none
+		sourceColumn: DayOfWeekName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeekAbrev
+		dataType: string
+		isHidden
+		lineageTag: 5980e3f9-ef8c-4506-b84b-8fb4ff7fda1c
+		summarizeBy: none
+		sourceColumn: DayOfWeekAbrev
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfMonth
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fbeae7ed-3158-4647-98f0-f725a84cbfe4
+		summarizeBy: sum
+		sourceColumn: DayOfMonth
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfYear
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 04a56c48-cc38-454f-87c6-632a2d5525b3
+		summarizeBy: sum
+		sourceColumn: DayOfYear
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWeekend
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1b1099ed-714e-4b41-b778-89e2b7c1627e
+		summarizeBy: none
+		sourceColumn: IsWeekend
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsPayday
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c507ce62-1387-49d8-ab70-36f2b037fb80
+		summarizeBy: none
+		sourceColumn: IsPayday
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsSpecialDate
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: bdc73541-0c6f-4c07-aa92-244d40eddba2
+		summarizeBy: none
+		sourceColumn: IsSpecialDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWorkDay
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 3a0b868e-4ae7-4e1d-83df-d2426ca54a33
+		summarizeBy: none
+		sourceColumn: IsWorkDay
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekOfYear
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f58806e3-5aa3-497d-bd7f-684160299c09
+		summarizeBy: sum
+		sourceColumn: WeekOfYear
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		isHidden
+		lineageTag: 3484a7a5-86d2-42a1-a5ec-882fff38334e
+		summarizeBy: none
+		sourceColumn: MonthName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNameAbrev
+		dataType: string
+		isHidden
+		lineageTag: 53dfe13d-513f-49f8-8218-436aa3fb80ed
+		summarizeBy: none
+		sourceColumn: MonthNameAbrev
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthOfYear
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 73d0b58a-1337-4e6a-9ba8-39dafb1d62e8
+		summarizeBy: sum
+		sourceColumn: MonthOfYear
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsLastDayOfMonth
+		dataType: string
+		isHidden
+		lineageTag: 2d54f754-911f-4649-a58e-8defa19974fc
+		summarizeBy: none
+		sourceColumn: IsLastDayOfMonth
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CalendarYear
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7c084d21-2bed-4286-9df7-5f78c318faf1
+		summarizeBy: sum
+		sourceColumn: CalendarYear
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CalendarQuarter
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1329a3e2-6244-4c51-90e2-eff8d2449df2
+		summarizeBy: sum
+		sourceColumn: CalendarQuarter
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CalendarYearMonth
+		dataType: string
+		isHidden
+		lineageTag: 985b21dc-dbc3-4b2f-835a-3ca1ebf9b237
+		summarizeBy: none
+		sourceColumn: CalendarYearMonth
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CalendarYearQuarter
+		dataType: string
+		isHidden
+		lineageTag: 86c28487-a270-4f0c-9baa-0eb80efd14f2
+		summarizeBy: none
+		sourceColumn: CalendarYearQuarter
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FiscalYear
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e61f2f72-4864-49d7-aa3d-bfadb6e90c58
+		summarizeBy: sum
+		sourceColumn: FiscalYear
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FiscalQuarter
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 43920887-be87-40ae-b290-0be1db819276
+		summarizeBy: sum
+		sourceColumn: FiscalQuarter
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FiscalMonth
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 88dbf957-dffd-4dfa-9be5-50b7a63ff940
+		summarizeBy: sum
+		sourceColumn: FiscalMonth
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FiscalYearName
+		dataType: string
+		isHidden
+		lineageTag: 2e927e49-7008-4fcc-a7d2-f196e84f7d97
+		summarizeBy: none
+		sourceColumn: FiscalYearName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FiscalYearMonth
+		dataType: string
+		isHidden
+		lineageTag: 03f14657-67d8-4659-a4f6-53fbb3619adc
+		summarizeBy: none
+		sourceColumn: FiscalYearMonth
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FiscalYearQuarter
+		dataType: string
+		isHidden
+		lineageTag: 4cbeba30-f135-4d9d-858f-02ee5e94e900
+		summarizeBy: none
+		sourceColumn: FiscalYearQuarter
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column BudgetFiscalYear
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 47a9d396-aa44-4a02-906f-902b45eb6603
+		summarizeBy: sum
+		sourceColumn: BudgetFiscalYear
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column BudgetFiscalYearName
+		dataType: string
+		isHidden
+		lineageTag: bba4f906-89c3-49a1-90bb-44d1003c49f8
+		summarizeBy: none
+		sourceColumn: BudgetFiscalYearName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column BudgetFiscalPeriod
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 59ec1a3b-f9d5-4ff6-b53f-ca29ff201d24
+		summarizeBy: sum
+		sourceColumn: BudgetFiscalPeriod
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AcademicYear
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: cd8f10e3-c792-4565-a81d-248860a8e98f
+		summarizeBy: sum
+		sourceColumn: AcademicYear
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Academic Year'
+		dataType: string
+		isHidden
+		lineageTag: 31f3601b-e444-4515-9fa4-6c8ce5fe58a2
+		summarizeBy: none
+		sourceColumn: Academic Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AcademicYearMonth
+		dataType: string
+		isHidden
+		lineageTag: 155af6e3-8860-4989-88ac-e04adf665d3a
+		summarizeBy: none
+		sourceColumn: AcademicYearMonth
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AcademicMonthOfYear
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 89bc414f-a5bc-40a8-b531-b2ea4bedfee4
+		summarizeBy: sum
+		sourceColumn: AcademicMonthOfYear
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AuditKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ea0dbd34-ad52-4632-a407-045f81a7c277
+		summarizeBy: count
+		sourceColumn: AuditKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDate = m
+		mode: import
+		queryGroup: Dimensions
+		source = ```
+				let
+				    Source = Sql.Database(Server, DataBase),
+				    dbo_DateDim = Source{[Schema="dbo",Item="DimDate"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(dbo_DateDim,{"DimDateKey", "FullDate", "DateName", "DateNameCA", "DayOfWeek", "DayOfWeekName", "DayOfWeekAbrev", "DayOfMonth", "DayOfYear", "IsWeekend", "IsPayday", "IsSpecialDate", "IsWorkDay", "WeekOfYear", "MonthName", "MonthNameAbrev", "MonthOfYear", "IsLastDayOfMonth", "CalendarYear", "CalendarQuarter", "CalendarYearMonth", "CalendarYearQuarter", "FiscalYear", "FiscalQuarter", "FiscalMonth", "FiscalYearName", "FiscalYearMonth", "FiscalYearQuarter", "BudgetFiscalYear", "BudgetFiscalYearName", "BudgetFiscalPeriod", "AcademicYear", "AcademicYearName", "AcademicYearMonth", "AcademicMonthOfYear", "AuditKey"}),
+				    #"End Year Date" = Date.EndOfYear( Date.From(DateTime.LocalNow()) ),  
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Other Columns", each [FullDate] > #date(2018, 6, 30) and [FullDate] <= #"End Year Date"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows",{{"FullDate", "Date"}, {"AcademicYearName", "Academic Year"}})
+				in
+				    #"Renamed Columns"
+				```
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

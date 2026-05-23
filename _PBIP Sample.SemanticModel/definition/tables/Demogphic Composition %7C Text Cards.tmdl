@@ -1,0 +1,416 @@
+table 'Demogphic Composition | Text Cards'
+	lineageTag: 9fa59ae7-c0d9-4212-b4dd-73a54cf311ab
+
+	measure 'Female Text comparison' = ```
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 2, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _LY = LOOKUPVALUE(DimTerm[LY_AcademicName], DimTerm[Academic Year Name], _YearName)
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			//  % Change
+			VAR _value = [Distinct Students, Female] - [Distinct Students, Female, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, Female, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, Female, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _symbol = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			"Compared to Academic Year, " & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,        _LY & " " & _Session,
+			        _HasSession && NOT _HasYear,    _CYNName & " " & _Session,
+			        NOT _HasSession && _HasYear,    _LY,
+			        _CYNName                        // default
+			    )
+			```
+		displayFolder: Female
+		lineageTag: fe23a10b-7991-409d-8f7f-6cd9ca17c2b6
+
+	measure 'Female Text Number and %' = ```
+			
+			VAR _Diff = [Distinct Students, Female] - [Distinct Students, Female, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Female, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, Female, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			// Math operator and number +105
+			VAR _operatorNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			
+			// Arrow and % change
+			VAR _arrowNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			-- _operatorNumber & " | " & _arrowNumber
+			_arrowNumber & " | " & _operatorNumber
+			
+			```
+		displayFolder: Female
+		lineageTag: 3a7fedf6-858d-4c10-81f0-77825da7f332
+
+	measure 'Female Reference label color value' = ```
+			
+			VAR _value = [Distinct Students, Female] - [Distinct Students, Female, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, Female, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, Female, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, "Green",
+			        _pct < 0, "Red",
+			        "Grey"
+			    )
+			RETURN
+			_format
+			```
+		displayFolder: Female
+		lineageTag: eaba2f4d-f59c-44aa-8f84-b19e1169b061
+
+	measure 'Male Text comparison' = ```
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 2, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _LY = LOOKUPVALUE(DimTerm[LY_AcademicName], DimTerm[Academic Year Name], _YearName)
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			//  % Change
+			VAR _value = [Distinct Students, Male] - [Distinct Students, Male, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, Male, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, Male, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _symbol = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			"Compared to Academic Year, " & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,        _LY & " " & _Session,
+			        _HasSession && NOT _HasYear,    _CYNName & " " & _Session,
+			        NOT _HasSession && _HasYear,    _LY,
+			        _CYNName                        // default
+			    )
+			```
+		displayFolder: Male
+		lineageTag: 7cbefc9c-ffae-4ff4-b4e5-1c5490ba7d64
+
+	measure 'Male Text Number and %' = ```
+			
+			VAR _Diff = [Distinct Students, Male] - [Distinct Students, Male, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Male, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, Male, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			// Math operator and number +105
+			VAR _operatorNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			
+			// Arrow and % change
+			VAR _arrowNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			-- _operatorNumber & " | " & _arrowNumber
+			_arrowNumber & " | " & _operatorNumber
+			```
+		displayFolder: Male
+		lineageTag: c19e86a2-0fa2-4818-903c-55fd027db557
+
+	measure 'Male Reference label color value' = ```
+			
+			VAR _value = [Distinct Students, Male] - [Distinct Students, Male, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, Male, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, Male, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, "Green",
+			        _pct < 0, "Red",
+			        "Grey"
+			    )
+			RETURN
+			_format
+			```
+		displayFolder: Male
+		lineageTag: 07ee7c4a-cc2a-4631-ba9c-a2808a1d3a15
+
+	measure 'Gender Diverse Text comparison' = ```
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 2, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _LY = LOOKUPVALUE(DimTerm[LY_AcademicName], DimTerm[Academic Year Name], _YearName)
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			//  % Change
+			VAR _value = [Distinct Students, Gender Diverse] - [Distinct Students, Gender Diverse, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, Gender Diverse, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, Gender Diverse, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _symbol = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			"Compared to Academic Year, " & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,        _LY & " " & _Session,
+			        _HasSession && NOT _HasYear,    _CYNName & " " & _Session,
+			        NOT _HasSession && _HasYear,    _LY,
+			        _CYNName                        // default
+			    )
+			```
+		displayFolder: Gender Diverse
+		lineageTag: ff2f5780-f072-478a-b92e-b7afca0fe44c
+
+	measure 'Gender Diverse Text Number and %' = ```
+			
+			VAR _Diff = [Distinct Students, Gender Diverse] - [Distinct Students, Gender Diverse, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Gender Diverse, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, Gender Diverse, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			// Math operator and number +105
+			VAR _operatorNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			
+			// Arrow and % change
+			VAR _arrowNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			-- _operatorNumber & " | " & _arrowNumber
+			_arrowNumber & " | " & _operatorNumber
+			```
+		displayFolder: Gender Diverse
+		lineageTag: b2b4cb67-0848-4801-b4e8-d411f0020de0
+
+	measure 'Gender Diverse Reference label color value' = ```
+			
+			VAR _value = [Distinct Students, Gender Diverse] - [Distinct Students, Gender Diverse, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, Gender Diverse, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, Gender Diverse, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, "Green",
+			        _pct < 0, "Red",
+			        "Grey"
+			    )
+			RETURN
+			_format
+			```
+		displayFolder: Gender Diverse
+		lineageTag: d5bec290-6bf4-4d78-bb0e-321b8b7a59b6
+
+	measure 'Undeclared Text comparison' = ```
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 2, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _LY = LOOKUPVALUE(DimTerm[LY_AcademicName], DimTerm[Academic Year Name], _YearName)
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			//  % Change
+			VAR _value = [Distinct Students, Undeclared] - [Distinct Students, Undeclared, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, Undeclared, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, Undeclared, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _symbol = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			"Compared to Academic Year, " & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,        _LY & " " & _Session,
+			        _HasSession && NOT _HasYear,    _CYNName & " " & _Session,
+			        NOT _HasSession && _HasYear,    _LY,
+			        _CYNName                        // default
+			    )
+			```
+		displayFolder: Undeclared
+		lineageTag: 6bcf6a93-2787-405b-8e40-1e065b8e840b
+
+	measure 'Undeclared Text Number and %' = ```
+			
+			VAR _Diff = [Distinct Students, Undeclared] - [Distinct Students, Undeclared, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Undeclared, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, Undeclared, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			// Math operator and number +105
+			VAR _operatorNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			
+			// Arrow and % change
+			VAR _arrowNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			-- _operatorNumber & " | " & _arrowNumber
+			_arrowNumber & " | " & _operatorNumber
+			```
+		displayFolder: Undeclared
+		lineageTag: 977938ea-64a1-4e65-93ec-a055a83c7561
+
+	measure 'Undeclared Reference label color value' = ```
+			
+			VAR _value = [Distinct Students, Undeclared] - [Distinct Students, Undeclared, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, Undeclared, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, Undeclared, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, "Green",
+			        _pct < 0, "Red",
+			        "Grey"
+			    )
+			RETURN
+			_format
+			```
+		displayFolder: Undeclared
+		lineageTag: 48f413a1-281d-42e2-87c6-133d8edfe1b6
+
+	partition 'Demogphic Composition | Text Cards' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

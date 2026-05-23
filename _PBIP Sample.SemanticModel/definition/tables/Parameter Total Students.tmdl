@@ -1,0 +1,50 @@
+table 'Parameter Total Students'
+	lineageTag: b021e62d-4f44-4cba-b104-cbe5aff077ae
+
+	column Parameter
+		lineageTag: 0e7a0f36-8996-49a5-9568-a27b8db840f4
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: 326c3199-4d34-4b79-92cc-560573d3c660
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		formatString: 0
+		lineageTag: c0d0efdd-ab1f-4f77-a288-487577f19307
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Parameter Total Students' = calculated
+		mode: import
+		source =
+				{
+				    ("Total Students", NAMEOF('Core measures'[Distinct Students DaysBetween]), 0),
+				    ("Domestic (Non-Indigenous)", NAMEOF('Demographic Measures'[Distinct Students, Domestic (Non-Indigenous)]), 1),
+				    ("Indigenous", NAMEOF('Demographic Measures'[Distinct Students, Indigenous]), 2),
+				    ("International Visa", NAMEOF('Demographic Measures'[Distinct Students, International Visa]), 3),
+				    ("International Non-visa", NAMEOF('Demographic Measures'[Distinct Students, International Non-visa]), 4)
+				}
+
+	annotation PBI_Id = dd253cd088a24f52872dffa1a2ced00a
+

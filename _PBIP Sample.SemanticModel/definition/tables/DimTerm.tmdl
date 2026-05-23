@@ -1,0 +1,263 @@
+table DimTerm
+	lineageTag: feadaede-b0c9-4340-b723-d934cf1f0458
+
+	column TermLastCharacters
+		dataType: string
+		lineageTag: c1aaff8b-9e5a-4bfe-a930-4ac639ceb19b
+		summarizeBy: none
+		sourceColumn: TermLastCharacters
+
+		annotation SummarizationSetBy = Automatic
+
+	column TermLY
+		dataType: string
+		lineageTag: 42f64b6e-895d-498e-a9a7-cad6e815b2b1
+		summarizeBy: none
+		sourceColumn: TermLY
+
+		annotation SummarizationSetBy = Automatic
+
+	column DimTermKey
+		dataType: int64
+		formatString: 0
+		lineageTag: f26a8bab-f3ed-466b-9559-64a2a3b1643e
+		summarizeBy: none
+		sourceColumn: DimTermKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Term
+		dataType: string
+		lineageTag: c8241689-8f1d-4f24-bd3e-aa7413265781
+		summarizeBy: none
+		sourceColumn: Term
+
+		annotation SummarizationSetBy = Automatic
+
+	column TermDescription
+		dataType: string
+		lineageTag: dff3e107-cee3-439d-a4a7-1c178b483963
+		summarizeBy: none
+		sourceColumn: TermDescription
+
+		annotation SummarizationSetBy = Automatic
+
+	column TermReportingYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 4041ae2b-a8c6-4574-a2b2-a3e3d75ae470
+		summarizeBy: none
+		sourceColumn: TermReportingYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column TermStartDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 6676105b-d321-47b1-929d-0686411a8055
+		summarizeBy: none
+		sourceColumn: TermStartDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column TermEndDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3693ed97-ff25-47e4-91e9-c2d49bd85bdb
+		summarizeBy: none
+		sourceColumn: TermEndDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column TermSequence
+		dataType: int64
+		formatString: 0
+		lineageTag: dd5dee5e-017d-48bf-a82d-c8247a456a5f
+		summarizeBy: none
+		sourceColumn: TermSequence
+
+		annotation SummarizationSetBy = Automatic
+
+	column TermDelivery
+		dataType: string
+		lineageTag: db0579b9-1dd6-4f56-bda4-78c03dc08a98
+		summarizeBy: none
+		sourceColumn: TermDelivery
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Academic Year Name'
+		dataType: string
+		lineageTag: 220e1a20-582e-438a-895c-a5c3e4bffc05
+		summarizeBy: none
+		sourceColumn: Academic Year Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearLabel
+		dataType: string
+		lineageTag: d63cd977-6ee6-4eb5-8f27-922ac4d2f8cb
+		summarizeBy: none
+		sourceColumn: YearLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	column LY_AcademicName
+		dataType: string
+		lineageTag: fb878f7f-b6c2-4c38-a372-8cbf2caf2fc4
+		summarizeBy: none
+		sourceColumn: LY_AcademicName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order_Session
+		dataType: int64
+		formatString: 0
+		lineageTag: 4ebd65a5-72f4-4aba-9178-e7cb802b2a24
+		summarizeBy: none
+		sourceColumn: Order_Session
+
+		annotation SummarizationSetBy = Automatic
+
+	column Session
+		dataType: string
+		lineageTag: 1b436171-f039-4bc0-b117-c1e8ee43c84c
+		summarizeBy: none
+		sourceColumn: Session
+		sortByColumn: Order_Session
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsFrom2018ToLatest
+		dataType: int64
+		formatString: 0
+		lineageTag: 6e7d6555-3a93-4044-81a6-1aef1fa77f68
+		summarizeBy: none
+		sourceColumn: IsFrom2018ToLatest
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimTerm = m
+		mode: import
+		queryGroup: Dimensions
+		source = ```
+				let
+				    Source = Sql.Database(Server, DataBase), 
+				    Query=
+				    "
+				    WITH Temp AS (
+				    SELECT * 
+				    FROM DimTerm dt
+				    WHERE dt.DimTermKey <> -1
+				      AND dt.Term <> 'ZHIST'
+				      AND dt.TermDescription <> 'DO NOT USE'
+				      AND dt.Term NOT LIKE '%DMR%'
+				),
+				TempA AS (
+				    SELECT 
+				        SUBSTRING(t.Term, 6, 2) AS TermLastCharacters,
+				        CONCAT(
+				            t.TermDelivery,
+				            CAST(TRY_CAST(SUBSTRING(t.Term, 2, 4) AS INT) - 1 AS VARCHAR(4)),
+				            SUBSTRING(t.Term, 6, 2)
+				        ) AS TermLY,
+				        t.DimTermKey,
+				        t.Term,
+				        t.TermDescription,
+				        t.TermReportingYear,
+				        t.TermStartDate,
+				        t.TermEndDate,
+				        t.TermSequence,
+				        t.TermDelivery,
+				        t.Session
+				    FROM Temp t
+				),
+				TempB AS ( 
+				    SELECT 
+				        CAST(
+				            CASE 
+				                WHEN ta.TermStartDate >= DATEFROMPARTS(YEAR(ta.TermStartDate), 7, 1)
+				                    THEN YEAR(ta.TermStartDate)
+				                ELSE YEAR(ta.TermStartDate) - 1
+				            END AS VARCHAR(4)
+				        )
+				        + '-' +
+				        RIGHT(CAST(
+				            CASE 
+				                WHEN ta.TermStartDate >= DATEFROMPARTS(YEAR(ta.TermStartDate), 7, 1)
+				                    THEN YEAR(ta.TermStartDate) + 1
+				                ELSE YEAR(ta.TermStartDate)
+				            END AS VARCHAR(4)), 2) AS AcademicYearName,
+				
+				        CAST(
+				            CASE 
+				                WHEN ta.TermStartDate >= DATEFROMPARTS(YEAR(ta.TermStartDate), 7, 1)
+				                    THEN YEAR(ta.TermStartDate) - 1
+				                ELSE YEAR(ta.TermStartDate) - 2
+				            END AS VARCHAR(4)
+				        )
+				        + '-' +
+				        RIGHT(CAST(
+				            CASE 
+				                WHEN ta.TermStartDate >= DATEFROMPARTS(YEAR(ta.TermStartDate), 7, 1)
+				                    THEN YEAR(ta.TermStartDate)
+				                ELSE YEAR(ta.TermStartDate) - 1
+				            END AS VARCHAR(4)), 2) AS LY_AcademicName,
+				
+				        CASE 
+				            WHEN ta.TermReportingYear = YEAR(GETDATE()) - 1 
+				                THEN 'LatestYear'
+				            ELSE CAST(ta.TermReportingYear AS VARCHAR(4))
+				        END AS YearLabel,
+				
+				        ta.* 
+				    FROM TempA ta
+				),
+				TempC AS ( 
+				    SELECT 
+				        CASE 
+				            WHEN tb.Session = 'Summer' THEN 1
+				            WHEN tb.Session = 'Fall' THEN 2
+				            WHEN tb.Session = 'Winter' THEN 3
+				            ELSE 4
+				        END AS Order_Session,
+				        tb.*
+				    FROM TempB tb
+				),
+				Latest AS (
+				    SELECT MAX(TermReportingYear) AS LatestTermReportingYear
+				    FROM TempC
+				    WHERE YearLabel = 'LatestYear'
+				),
+				ToLatest AS (
+				
+					SELECT
+						tc.*,
+						CASE
+							WHEN tc.TermReportingYear BETWEEN 2018 AND l.LatestTermReportingYear THEN 1
+							ELSE 0
+						END AS IsFrom2018ToLatest
+					FROM TempC tc
+					CROSS JOIN Latest l
+				)
+				Select 
+					*
+				From ToLatest
+				where IsFrom2018ToLatest = 1
+				ORDER BY TermReportingYear DESC, Order_Session, TermSequence;
+				    
+				    ",
+				    Result = Value.NativeQuery(Source, Query),
+				    #"Check No Rows" = Table.RowCount( Result),
+				    #"SQL Result" = Result,
+				    #"Renamed Columns" = Table.RenameColumns(#"SQL Result",{{"AcademicYearName", "Academic Year Name"}})
+				in
+				    #"Renamed Columns"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

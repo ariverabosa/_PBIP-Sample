@@ -1,0 +1,192 @@
+table DimOrganizationalUnit
+	lineageTag: 13b6e33f-e1de-4674-a360-cdc6833828f3
+
+	column DimOrganizationalUnitKey
+		dataType: int64
+		formatString: 0
+		lineageTag: cf177a91-0daa-49c4-b1b5-f549f00e8a63
+		summarizeBy: none
+		sourceColumn: DimOrganizationalUnitKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValidFrom
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 52269b66-1a16-4f81-aaa9-1b248200fe5e
+		summarizeBy: none
+		sourceColumn: ValidFrom
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValidTo
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 7c05159c-a4eb-4013-881f-3b27b039ae79
+		summarizeBy: none
+		sourceColumn: ValidTo
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrentFlag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 8627b1a2-9adf-4bc1-919b-73d687fea0e1
+		summarizeBy: none
+		sourceColumn: CurrentFlag
+
+		annotation SummarizationSetBy = Automatic
+
+	column DimAuditKey
+		dataType: int64
+		formatString: 0
+		lineageTag: d7e1d917-8272-43aa-9925-f7534fd1b67c
+		summarizeBy: none
+		sourceColumn: DimAuditKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column depts_pk
+		dataType: int64
+		formatString: 0
+		lineageTag: 772eaaf1-6b9c-4b84-b4e8-00c28db50f96
+		summarizeBy: none
+		sourceColumn: depts_pk
+
+		annotation SummarizationSetBy = Automatic
+
+	column Department
+		dataType: string
+		lineageTag: bf5d4bc3-3adf-423a-b182-e57894433f66
+		summarizeBy: none
+		sourceColumn: Department
+
+		annotation SummarizationSetBy = Automatic
+
+	column DepartmentName
+		dataType: string
+		lineageTag: 9c0395ef-92e1-4c0e-9b93-0554f27161f6
+		summarizeBy: none
+		sourceColumn: DepartmentName
+
+		annotation SummarizationSetBy = Automatic
+
+	column isActive
+		dataType: string
+		lineageTag: 63f6a8b7-b753-4da1-ab82-05c8fdf2e118
+		summarizeBy: none
+		sourceColumn: isActive
+
+		annotation SummarizationSetBy = Automatic
+
+	column DepartmentGLCode
+		dataType: string
+		lineageTag: b11c8d9f-f58f-4809-bcf3-585e82f890a8
+		summarizeBy: none
+		sourceColumn: DepartmentGLCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Division
+		dataType: string
+		lineageTag: 8da0a574-6b72-4285-bf5e-3c935e0bc8a5
+		summarizeBy: none
+		sourceColumn: Division
+
+		annotation SummarizationSetBy = Automatic
+
+	column DivisionName
+		dataType: string
+		lineageTag: df075d5e-1258-4016-a3e3-c89d7a68726c
+		summarizeBy: none
+		sourceColumn: DivisionName
+
+		annotation SummarizationSetBy = Automatic
+
+	column School
+		dataType: string
+		lineageTag: ebb11a47-57d1-4593-b6a5-165d4f81481f
+		summarizeBy: none
+		sourceColumn: School
+
+		annotation SummarizationSetBy = Automatic
+
+	column SchoolName
+		dataType: string
+		lineageTag: 95bc9b5c-9f33-4f41-b994-61e95eea6073
+		summarizeBy: none
+		sourceColumn: SchoolName
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnalyticDivision
+		dataType: string
+		lineageTag: 35504e54-83e3-49c9-9d86-d81c8b7ecbd4
+		summarizeBy: none
+		sourceColumn: AnalyticDivision
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnalyticDivisionName
+		dataType: string
+		lineageTag: e41cf00f-f97d-4564-93af-5e7b7e152335
+		summarizeBy: none
+		sourceColumn: AnalyticDivisionName
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnalyticLeaderSchool
+		dataType: string
+		lineageTag: c3b4599d-3085-44e1-9cd3-f7a4ecbc0846
+		summarizeBy: none
+		sourceColumn: AnalyticLeaderSchool
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnalyticLeaderPortfolio
+		dataType: string
+		lineageTag: 131c3f76-e0fb-4fc8-a210-a92a92d50f26
+		summarizeBy: none
+		sourceColumn: AnalyticLeaderPortfolio
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnalyticSchool
+		dataType: string
+		lineageTag: ebed4b77-d0d9-48c0-98ba-220bc92ab7d6
+		summarizeBy: none
+		sourceColumn: AnalyticSchool
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnalyticSchoolName
+		dataType: string
+		lineageTag: 4b51d87a-2027-487b-ad14-35758f988ea5
+		summarizeBy: none
+		sourceColumn: AnalyticSchoolName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimOrganizationalUnit = m
+		mode: import
+		queryGroup: Dimensions
+		source = ```
+				let
+				    Source = Sql.Database(Server, DataBase),
+				    Query=
+				    "
+				    SELECT * FROM DimOrganizationalUnit
+				    --where isActive ='Yes'
+				    
+				    ",
+				    Result = Value.NativeQuery(Source, Query),
+				    #"Check No Rows" = Table.RowCount( Result),
+				    #"SQL Result" = Result
+				in
+				    #"SQL Result"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

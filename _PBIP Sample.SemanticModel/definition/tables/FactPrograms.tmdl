@@ -1,0 +1,470 @@
+table FactPrograms
+	lineageTag: d161ca3d-845d-44ad-a8a2-fd9db63ef081
+
+	column person_pk
+		dataType: int64
+		formatString: 0
+		lineageTag: 343d6e20-7539-45d8-b743-39a237674709
+		summarizeBy: none
+		sourceColumn: person_pk
+
+		annotation SummarizationSetBy = Automatic
+
+	column person_id
+		dataType: string
+		lineageTag: 91e370a1-7e6a-4459-92f2-21697677fc23
+		summarizeBy: none
+		sourceColumn: person_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReferenceDateDAX = ```
+			
+			DATE (
+			    RELATED(DimDate[AcademicYear]), 
+			    7, 
+			    1
+			)
+			```
+		formatString: General Date
+		displayFolder: Age calc DAX
+		lineageTag: 4d590d86-f5e0-4343-b406-a00fe33cc3a2
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeDAX = ```
+			
+			VAR _BirthDate = RELATED(DimStudent[Birthday])
+			VAR _BirthYear = YEAR (_BirthDate )
+			VAR _RefYear = YEAR ( [ReferenceDateDAX] )
+			RETURN
+			IF ( 
+			    NOT ISBLANK (_BirthYear) && NOT ISBLANK (_RefYear), 
+			    _RefYear - _BirthYear, 
+			    0 
+			)
+			```
+		formatString: 0
+		displayFolder: Age calc DAX
+		lineageTag: 2457bacc-6573-4fc6-9149-ddb2fad137dd
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeBinDAX =
+			
+			SWITCH (
+			    TRUE(),
+			    [AgeDAX] >= 55, "55 and over",
+			    [AgeDAX] >= 45, "45 - 54",
+			    [AgeDAX] >= 35, "35 - 44",
+			    [AgeDAX] >= 25, "25 - 34",
+			    [AgeDAX] >= 18, "18 - 24",
+			    "Undeclared"
+			)
+		displayFolder: Age calc DAX
+		lineageTag: aaeacb47-e5e3-4e8b-a9a4-2bfb2dcf170d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column TermReportingYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 9993ec8c-5486-448e-8270-328fd22dcb7a
+		summarizeBy: sum
+		sourceColumn: TermReportingYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column acad_programs_pk
+		dataType: int64
+		formatString: 0
+		lineageTag: e35acb99-894e-4770-bad4-bfcdbde1629a
+		summarizeBy: none
+		sourceColumn: acad_programs_pk
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReportGroup
+		dataType: string
+		lineageTag: 5bae221c-c368-4903-adea-88bf82ba4e41
+		summarizeBy: none
+		sourceColumn: ReportGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrentFlag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5261127e-d1f4-41ad-b0ec-5a554c054a10
+		summarizeBy: none
+		sourceColumn: CurrentFlag
+
+		annotation SummarizationSetBy = Automatic
+
+	column isIndigenous
+		dataType: string
+		lineageTag: c21fe94c-cad8-4d92-8942-4ce0c21c0269
+		summarizeBy: none
+		sourceColumn: isIndigenous
+
+		annotation SummarizationSetBy = Automatic
+
+	column TermStartDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 61b47f7c-ed1b-4b47-af96-6c01cbf92883
+		summarizeBy: none
+		sourceColumn: TermStartDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column DimStudentKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 61499a1b-5226-4b67-a523-1dfc319af5c4
+		summarizeBy: count
+		sourceColumn: DimStudentKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DimProgramTrackKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 3cd2722f-9be7-4bf7-bd54-ca081a2f6060
+		summarizeBy: count
+		sourceColumn: DimProgramTrackKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DimTermKey
+		dataType: int64
+		formatString: 0
+		lineageTag: e5b3eab6-3f6c-42d4-9482-f42d18d3ecb9
+		summarizeBy: none
+		sourceColumn: DimTermKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DimOrganizationalUnitKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 3b794b20-98be-485d-9073-fabec28386bf
+		summarizeBy: none
+		sourceColumn: DimOrganizationalUnitKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DimStudentProgramAddDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: e134aecf-4aab-4b5c-b59d-3843f3df8c75
+		summarizeBy: count
+		sourceColumn: DimStudentProgramAddDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DimAuditKey
+		dataType: int64
+		formatString: 0
+		lineageTag: fbd584c4-e8f1-462e-afea-3320d39fcb23
+		summarizeBy: count
+		sourceColumn: DimAuditKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column isContinuing
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e8dbb25f-42f0-4656-be4a-adbb7a561786
+		summarizeBy: none
+		sourceColumn: isContinuing
+
+		annotation SummarizationSetBy = Automatic
+
+	column Credits
+		dataType: double
+		lineageTag: cd3e580e-030e-4e08-9fbb-ec67aa578f11
+		summarizeBy: sum
+		sourceColumn: Credits
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Courses
+		dataType: int64
+		formatString: 0
+		lineageTag: 099f7a01-399d-4f78-b8ba-3d5b7b1bba57
+		summarizeBy: sum
+		sourceColumn: Courses
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeAtTermStart
+		dataType: int64
+		formatString: 0
+		lineageTag: 4c2f0db7-d1d1-44c2-9985-bbd4703e8ee9
+		summarizeBy: sum
+		sourceColumn: AgeAtTermStart
+
+		annotation SummarizationSetBy = Automatic
+
+	column MinCourseStartDate
+		dataType: int64
+		formatString: 0
+		lineageTag: ce07f057-c4eb-4d2b-afd0-13d275e20501
+		summarizeBy: sum
+		sourceColumn: MinCourseStartDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column MaxCourseStartDate
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c44d4a6-861a-41af-aa40-1e73c74cede1
+		summarizeBy: sum
+		sourceColumn: MaxCourseStartDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column MinCourseLevel
+		dataType: string
+		lineageTag: 12286de8-2825-489d-b722-cc02649f663f
+		summarizeBy: none
+		sourceColumn: MinCourseLevel
+
+		annotation SummarizationSetBy = Automatic
+
+	column MaxCourseLevel
+		dataType: string
+		lineageTag: b4d608de-91d8-4110-a16f-c62c12e08e1c
+		summarizeBy: none
+		sourceColumn: MaxCourseLevel
+
+		annotation SummarizationSetBy = Automatic
+
+	column StudentProgramStartDate
+		dataType: int64
+		formatString: 0
+		lineageTag: fd4700f6-0264-4791-9de6-862887ece32d
+		summarizeBy: sum
+		sourceColumn: StudentProgramStartDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column StudentProgramEndDate
+		dataType: int64
+		formatString: 0
+		lineageTag: acd666c4-b772-4c8a-bab8-8d91f9892132
+		summarizeBy: sum
+		sourceColumn: StudentProgramEndDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column StudentProgramLocation
+		dataType: string
+		lineageTag: 482944b3-c173-48e2-8821-24cb4406f47f
+		summarizeBy: none
+		sourceColumn: StudentProgramLocation
+
+		annotation SummarizationSetBy = Automatic
+
+	column acad_programs_pk2
+		dataType: int64
+		formatString: 0
+		lineageTag: 6addca48-0b07-45f4-adf4-fb50c1c5596c
+		summarizeBy: sum
+		sourceColumn: acad_programs_pk2
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReportGroup2
+		dataType: string
+		lineageTag: f61ca590-398a-49c5-b7a7-874979cae03a
+		summarizeBy: none
+		sourceColumn: ReportGroup2
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrentFlag2
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 75ff22e9-6bfc-4dc0-b7e6-c6b4baf23ed7
+		summarizeBy: none
+		sourceColumn: CurrentFlag2
+
+		annotation SummarizationSetBy = Automatic
+
+	column person_pk2
+		dataType: int64
+		formatString: 0
+		lineageTag: 975b30ee-38d8-4258-89a7-63d38fc976d5
+		summarizeBy: sum
+		sourceColumn: person_pk2
+
+		annotation SummarizationSetBy = Automatic
+
+	column person_id2
+		dataType: string
+		lineageTag: c597fbf0-b209-4488-99be-9fba5a556ebd
+		summarizeBy: none
+		sourceColumn: person_id2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Program_StartDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 290d7231-c5e8-4b6d-8ac3-d04ba4f7adb1
+		summarizeBy: none
+		sourceColumn: Program_StartDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column Program_EndDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1d897b5d-14a4-414b-854e-79d04ca59ccf
+		summarizeBy: none
+		sourceColumn: Program_EndDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysBetween
+		dataType: int64
+		formatString: 0
+		lineageTag: 0780fdf4-e249-482c-bfeb-e6beec1c1854
+		summarizeBy: sum
+		sourceColumn: DaysBetween
+
+		annotation SummarizationSetBy = Automatic
+
+	column Program_StartDate2
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a7faace0-bbd4-44e5-b42d-a3745eb6b56b
+		summarizeBy: none
+		sourceColumn: Program_StartDate2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Program_EndDate2
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e2dfe9af-7848-4dff-9dda-32fa9dba462c
+		summarizeBy: none
+		sourceColumn: Program_EndDate2
+
+		annotation SummarizationSetBy = Automatic
+
+	column International_Mix
+		dataType: string
+		lineageTag: 252c376c-fd1c-4878-8218-fc27d16b40ed
+		summarizeBy: none
+		sourceColumn: International_Mix
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactPrograms = m
+		mode: import
+		source = ```
+				let
+				    Source = Sql.Database(Server, DataBase), 
+				    Query=
+				    "
+				WITH Temp AS (
+				    SELECT 
+				        edw.person_id,
+				        ds.*
+				    FROM DimStudent ds
+				    JOIN edw.dbo.PERSON_EDWT edw
+				        ON edw.person_pk = ds.person_pk
+				),
+				ta AS (
+				    SELECT
+				        dt.TermReportingYear,
+				        dt.TermStartDate,
+				        pt.acad_programs_pk,
+				        pt.ReportGroup,
+				        pt.CurrentFlag,
+				        pt.Program,
+				        CASE
+				            WHEN pt.Program IN ('IEETF-DP', 'PSIEJ-NA') THEN 'International Non-Visa'
+				            ELSE 'International Visa'
+				        END AS International_Mix,
+				        t.person_pk,
+				        t.person_id,
+				
+				        /* Convert YYYYMMDD int to real date */
+				        TRY_CONVERT(date, CONVERT(varchar(8), fsp.StudentProgramStartDate), 112)
+				            AS Program_StartDate,
+				
+				        /* Convert end date, use today if 99991231 */
+				        CASE
+				            WHEN fsp.StudentProgramEndDate = 99991231
+				                THEN CAST(GETDATE() AS date)
+				            ELSE TRY_CONVERT(date, CONVERT(varchar(8), fsp.StudentProgramEndDate), 112)
+				        END AS Program_EndDate,
+				
+				        /* Duration in days */
+				        DATEDIFF(
+				            DAY,
+				            TRY_CONVERT(date, CONVERT(varchar(8), fsp.StudentProgramStartDate), 112),
+				            CASE
+				                WHEN fsp.StudentProgramEndDate = 99991231
+				                    THEN CAST(GETDATE() AS date)
+				                ELSE TRY_CONVERT(date, CONVERT(varchar(8), fsp.StudentProgramEndDate), 112)
+				            END
+				        ) AS DaysBetween,
+				
+				        fsp.*
+				    FROM FactStudentPrograms fsp
+				    JOIN DimTerm dt
+				        ON dt.DimTermKey = fsp.DimTermKey
+				    JOIN DimProgramTrack pt
+				        ON pt.DimProgramTrackKey = fsp.DimProgramTrackKey
+				    JOIN Temp t
+				        ON t.DimStudentKey = fsp.DimStudentKey
+				    WHERE dt.TermReportingYear >= 2018
+				)
+				SELECT
+				    ta.person_id,
+				    ta.person_pk,
+				    COALESCE(ds_asof.isIndigenous, 'No') AS isIndigenous,
+				    ta.acad_programs_pk,
+				    ta.ReportGroup,
+				    ta.CurrentFlag,
+				    ta.Program_StartDate,
+				    ta.Program_EndDate,
+				    ta.DaysBetween,
+				    ta.*
+				FROM ta
+				OUTER APPLY (
+				    SELECT TOP (1)
+				        ds2.isIndigenous
+				    FROM DimStudent ds2
+				    WHERE ds2.person_pk = ta.person_pk
+				      AND ta.TermStartDate >= ds2.ValidFrom
+				      AND ta.TermStartDate <  ds2.ValidTo
+				    ORDER BY ds2.ValidFrom DESC
+				) ds_asof
+				ORDER BY ta.TermStartDate;
+				
+				
+				
+				    ",
+				    Result = Value.NativeQuery(Source, Query),
+				    #"Check No Rows" = Table.RowCount( Result),
+				    #"SQL Result" = Result,
+				    #"Removed Other Columns" = Table.SelectColumns(#"SQL Result",{"person_id", "person_pk", "isIndigenous", "acad_programs_pk", "ReportGroup", "CurrentFlag", "Program_StartDate", "Program_EndDate", "DaysBetween", "TermReportingYear", "TermStartDate", "acad_programs_pk2", "ReportGroup2", "CurrentFlag2", "International_Mix", "person_pk2", "person_id2", "Program_StartDate2", "Program_EndDate2", "DimStudentKey", "DimProgramTrackKey", "DimTermKey", "DimOrganizationalUnitKey", "DimStudentProgramAddDateKey", "DimAuditKey", "isContinuing", "Credits", "Courses", "AgeAtTermStart", "MinCourseStartDate", "MaxCourseStartDate", "MinCourseLevel", "MaxCourseLevel", "StudentProgramStartDate", "StudentProgramEndDate", "StudentProgramLocation"})
+				in
+				    #"Removed Other Columns"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

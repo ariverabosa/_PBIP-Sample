@@ -1,0 +1,14 @@
+DEFINE
+    MEASURE 'Core measures'[Distinct Students (no blank bucket)] = VAR ValidTerms = VALUES(DimTerm[DimTermKey])
+RETURN
+CALCULATE(
+    DISTINCTCOUNT(FactPrograms[person_pk]),
+    FactPrograms[DaysBetween] > 4,
+    FactPrograms[DimTermKey] <> -1,
+    KEEPFILTERS( FactPrograms[DimTermKey] IN ValidTerms )
+)
+
+EVALUATE
+    SUMMARIZECOLUMNS(
+        "Distinct Students (no blank bucket)", [Distinct Students (no blank bucket)]
+    )

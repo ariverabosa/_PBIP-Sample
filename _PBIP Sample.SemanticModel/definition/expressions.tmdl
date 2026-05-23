@@ -1,0 +1,89 @@
+expression Server = "ColleagueReporting" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 332488e7-6813-4d98-b614-c05cd6c10ace
+	queryGroup: Parameters
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression DataBase = "Warehouse" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 623b5663-3c7a-48c2-ac56-dac70ab8a588
+	queryGroup: Parameters
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression FactCourses = ```
+		let
+		    Source = Sql.Database(Server, DataBase),
+		    Query=
+		    "
+		    WITH Temp AS (
+		        SELECT
+		            dt.TermReportingYear,
+		            ds.person_pk,
+		            edw.person_id,
+		            fsc.DimStudentKey,
+		            fsc.DimCourseKey,
+		            fsc.CreditType,
+		            fsc.FinalStatus,
+		            fsc.IsActive,
+		            dd.FullDate AS StartDate,
+		            dd.AcademicYear,
+		            dt.Term,
+		            sc.SectionName,
+		            sc.Department,
+		            ds.Birthday,
+		            -- Replace NULL in Citizenship by Undeclared
+		
+		            CASE
+		                        WHEN ds.Citizenship IS NULL THEN 'Undeclared'             
+		                        ELSE ds.Citizenship
+		                    END AS Citizenship,
+		            dc.CourseName
+		        FROM FactStudentCourseRegistrations fsc
+		            JOIN DimTerm dt 
+		                ON dt.DimTermKey = fsc.DimTermKey
+		            JOIN DimStudent ds 
+		                ON  ds.DimStudentKey = fsc.DimStudentKey
+		            JOIN edw.dbo.PERSON_EDWT edw
+		                ON  edw.person_pk = ds.person_pk
+		            JOIN DimDate dd
+		                ON dd.DimDateKey = fsc.DimStartDateKey
+		            JOIN DimSection sc
+		                ON sc.DimSectionKey = fsc.DimSectionKey
+		            JOIN DimCourse dc
+		                ON dc.DimCourseKey = fsc.DimCourseKey
+		        WHERE 
+		            -- filter rows when IsActive = 1
+		                fsc.IsActive = 1
+		
+		            -- filter rows in Term Reporting Year
+		                AND TermReportingYear >= '2018'
+		        )
+		        select * from Temp
+		        ",
+		    Result = Value.NativeQuery(Source, Query),
+		    #"Check No Rows" = Table.RowCount( Result),
+		    #"SQL Result" = Result
+		in
+		    #"SQL Result"
+		```
+	lineageTag: d58d5e08-344c-4a6b-b523-b19e7d9a15fb
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Demographic Text Cards' =
+		let
+		    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+		    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+		    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+		in
+		    #"Removed Columns"
+	lineageTag: 5bb0442c-0274-4075-a286-30c3330eb771
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,840 @@
+table 'Demographic Measures'
+	lineageTag: c6576e10-6c0a-42d1-bca5-6d6aeec1dc41
+
+	measure 'Distinct Students, Domestic' = ```
+			
+			    CALCULATE(
+			       [Distinct Students DaysBetween],
+			        FILTER(DimStudent,DimStudent[New_isInternational] = "Domestic"))
+			```
+		formatString: #,0
+		displayFolder: Domestic
+		lineageTag: 6226d50d-7cbe-45ca-9201-eb6b51f73fae
+
+	measure 'Distinct Students, Indigenous' = ```
+			
+			CALCULATE([Distinct Students, Domestic], 
+			    FILTER(DimStudent, DimStudent[isIndigenous] = "Yes"))
+			```
+		formatString: #,0
+		displayFolder: Indigenous
+		lineageTag: 1e5ef84b-17c1-4974-8e52-1bd4a451420d
+
+	measure 'Distinct Students, International' = ```
+			
+			        CALCULATE(
+			       [Distinct Students DaysBetween],
+			        FILTER(DimStudent,DimStudent[New_isInternational] = "International"))
+			```
+		formatString: #,0
+		displayFolder: International Total
+		lineageTag: b18fc1db-da36-408b-a5b4-e174ee02f069
+
+	measure 'Distinct Students, Domestic, LY' =
+			
+			VAR _CY_AYName =
+			    SELECTEDVALUE ( DimTerm[Academic Year Name] )
+			VAR _LY_AYName =
+			    LOOKUPVALUE (
+			        DimTerm[LY_AcademicName],
+			        DimTerm[Academic Year Name], _CY_AYName
+			    )
+			RETURN
+			CALCULATE (
+			    [Distinct Students, Domestic],
+			    REMOVEFILTERS ( DimTerm[Academic Year Name] ),
+			    TREATAS ( { _LY_AYName }, DimTerm[Academic Year Name] ))
+		formatString: 0
+		displayFolder: Domestic
+		lineageTag: 7373d171-fa69-4cb5-b59e-45f63f434b70
+
+	measure 'Distinct Students, Indigenous, LY' =
+			
+			VAR _CY_AYName =
+			    SELECTEDVALUE ( DimTerm[Academic Year Name] )
+			VAR _LY_AYName =
+			    LOOKUPVALUE (
+			        DimTerm[LY_AcademicName],
+			        DimTerm[Academic Year Name], _CY_AYName
+			    )
+			RETURN
+			CALCULATE (
+			    [Distinct Students, Indigenous],
+			    REMOVEFILTERS ( DimTerm[Academic Year Name] ),
+			    TREATAS ( { _LY_AYName }, DimTerm[Academic Year Name] ))
+		formatString: #,0
+		displayFolder: Indigenous
+		lineageTag: 466d2c19-cff6-4908-90c2-7d97fdc94e59
+
+	measure 'Distinct Students, International, LY' =
+			
+			VAR _CY_AYName =
+			    SELECTEDVALUE ( DimTerm[Academic Year Name] )
+			VAR _LY_AYName =
+			    LOOKUPVALUE (
+			        DimTerm[LY_AcademicName],
+			        DimTerm[Academic Year Name], _CY_AYName
+			    )
+			RETURN
+			CALCULATE (
+			    [Distinct Students, International],
+			    REMOVEFILTERS ( DimTerm[Academic Year Name] ),
+			    TREATAS ( { _LY_AYName }, DimTerm[Academic Year Name] ))
+		formatString: 0
+		displayFolder: International Total
+		lineageTag: 4ece571c-f9ec-4a57-a8f5-20f8577c86eb
+
+	measure 'Percentage Domestic' = ```
+			
+			DIVIDE([Distinct Students, Domestic], [Distinct Students DaysBetween], BLANK())
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: Domestic
+		lineageTag: c0b73147-ee64-499d-8b7a-e2f37e335e1f
+
+	measure 'Percentage International' =
+			
+			DIVIDE([Distinct Students, International], [Distinct Students DaysBetween], BLANK())
+		formatString: 0%;-0%;0%
+		displayFolder: International Total
+		lineageTag: 15409a12-b29c-46c7-9001-79d2b7eea9f1
+
+	measure 'Percentage Indigenous' =
+			
+			DIVIDE([Distinct Students, Indigenous], [Distinct Students DaysBetween], BLANK())
+		formatString: 0%;-0%;0%
+		displayFolder: Indigenous
+		lineageTag: 9028e4c3-be39-4708-9cae-c2bc3a070264
+
+	measure 'Percentage Female' = ```
+			
+			VAR _selectedAY = SELECTEDVALUE(DimTerm[Academic Year Name])
+			VAR _defaultAY = LOOKUPVALUE(DimTerm[Academic Year Name], DimTerm[YearLabel], "LatestYear")
+			VAR _Total =
+			    CALCULATE(
+			        [Distinct Students DaysBetween],
+			        FILTER(DimTerm, DimTerm[Academic Year Name] = _selectedAY))
+			VAR _Female = 
+			    CALCULATE(
+			        [Distinct Students DaysBetween],
+			        FILTER(DimStudent,DimStudent[New_Gender] = "Female"),
+			        FILTER(DimTerm, DimTerm[Academic Year Name] = _selectedAY)
+			    )
+			VAR _pct = DIVIDE(_Female, _Total, 0)
+			VAR _absPct = ABS(_pct)
+			
+			
+			VAR _pctText =
+			    IF(
+			        _absPct > 0 && _absPct < 0.01,
+			        "<1%",
+			        FORMAT(_absPct, "#0%")
+			    )    
+			RETURN
+			_pct
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: Female
+		lineageTag: 6f5f9987-9a40-42e8-bd43-12b438f4912c
+
+	measure 'Percentage Male' = ```
+			
+			VAR _selectedAY = SELECTEDVALUE(DimTerm[Academic Year Name])
+			VAR _defaultAY = LOOKUPVALUE(DimTerm[Academic Year Name], DimTerm[YearLabel], "LatestYear")
+			VAR _Total =
+			    CALCULATE(
+			        [Distinct Students DaysBetween],
+			        FILTER(DimTerm, DimTerm[Academic Year Name] = _selectedAY))
+			VAR _Female = 
+			    CALCULATE(
+			        [Distinct Students DaysBetween],
+			        FILTER(DimStudent,DimStudent[New_Gender] = "Male"),
+			        FILTER(DimTerm, DimTerm[Academic Year Name] = _selectedAY)
+			    )
+			VAR _pct = DIVIDE(_Female, _Total, 0)
+			VAR _absPct = ABS(_pct)
+			
+			
+			VAR _pctText =
+			    IF(
+			        _absPct > 0 && _absPct < 0.01,
+			        "<1%",
+			        FORMAT(_absPct, "#0%")
+			    )    
+			RETURN
+			_pct
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: Male
+		lineageTag: 762b9164-c875-4f9c-9542-4980dae2c46a
+
+	measure 'Percentage Gender Diverse' = ```
+			
+			VAR _selectedAY = SELECTEDVALUE(DimTerm[Academic Year Name])
+			VAR _defaultAY = LOOKUPVALUE(DimTerm[Academic Year Name], DimTerm[YearLabel], "LatestYear")
+			VAR _Total =
+			    CALCULATE(
+			        [Distinct Students DaysBetween],
+			        FILTER(DimTerm, DimTerm[Academic Year Name] = _selectedAY))
+			VAR _Female = 
+			    CALCULATE(
+			        [Distinct Students DaysBetween],
+			        FILTER(DimStudent,DimStudent[New_Gender] = "Gender Diverse"),
+			        FILTER(DimTerm, DimTerm[Academic Year Name] = _selectedAY)
+			    )
+			VAR _pct = DIVIDE(_Female, _Total, 0)
+			VAR _absPct = ABS(_pct)
+			
+			
+			VAR _pctText =
+			    IF(
+			        _absPct > 0 && _absPct < 0.01,
+			        "<1%",
+			        FORMAT(_absPct, "#0%")
+			    )    
+			RETURN
+			_pct
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Gender Diverse
+		lineageTag: 62b7f3a6-76fa-4683-9807-f02ca83675a9
+
+	measure 'Percentage Undeclared' = ```
+			
+			VAR _selectedAY = SELECTEDVALUE(DimTerm[Academic Year Name])
+			VAR _defaultAY = LOOKUPVALUE(DimTerm[Academic Year Name], DimTerm[YearLabel], "LatestYear")
+			VAR _Total =
+			    CALCULATE(
+			        [Distinct Students DaysBetween],
+			        FILTER(DimTerm, DimTerm[Academic Year Name] = _selectedAY))
+			VAR _Female = 
+			    CALCULATE(
+			        [Distinct Students DaysBetween],
+			        FILTER(DimStudent,DimStudent[New_Gender] = "Undeclared"),
+			        FILTER(DimTerm, DimTerm[Academic Year Name] = _selectedAY)
+			    )
+			VAR _pct = DIVIDE(_Female, _Total, 0)
+			VAR _absPct = ABS(_pct)
+			
+			
+			VAR _pctText =
+			    IF(
+			        _absPct > 0 && _absPct < 0.01,
+			        "<1%",
+			        FORMAT(_absPct, "#0%")
+			    )    
+			RETURN
+			_pct
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Undeclared
+		lineageTag: a37acfd7-6fa4-4a78-8231-da3cc10970f1
+
+	measure 'Distinct Students, Female' = ```
+			
+			    CALCULATE(
+			       [Distinct Students DaysBetween],
+			        FILTER(DimStudent,DimStudent[New_Gender] = "Female"))
+			```
+		formatString: #,0
+		displayFolder: Female
+		lineageTag: 0c031506-bdbf-4b54-a107-5fad983f7b77
+
+	measure 'Distinct Students, Male' = ```
+			
+			    CALCULATE(
+			       [Distinct Students DaysBetween],
+			        FILTER(DimStudent,DimStudent[New_Gender] = "Male"))
+			```
+		formatString: #,0
+		displayFolder: Male
+		lineageTag: 0647bfe8-150a-4e99-9e05-89664f355fb8
+
+	measure 'Distinct Students, Gender Diverse' = ```
+			
+			    CALCULATE(
+			       [Distinct Students DaysBetween],
+			        FILTER(DimStudent,DimStudent[New_Gender] = "Gender Diverse"))
+			```
+		formatString: 0
+		displayFolder: Gender Diverse
+		lineageTag: a7f4106d-34e1-431d-9b59-f2613a242764
+
+	measure 'Distinct Students, Undeclared' = ```
+			
+			    CALCULATE(
+			       [Distinct Students DaysBetween],
+			        FILTER(DimStudent,DimStudent[New_Gender] = "Undeclared"))
+			```
+		formatString: 0
+		displayFolder: Undeclared
+		lineageTag: 49757ef1-735d-49d5-8f5b-4b7817c8d8bb
+
+	measure 'Distinct Students, Female, LY' =
+			
+			VAR _CY_AYName =
+			    SELECTEDVALUE ( DimTerm[Academic Year Name] )
+			VAR _LY_AYName =
+			    LOOKUPVALUE (
+			        DimTerm[LY_AcademicName],
+			        DimTerm[Academic Year Name], _CY_AYName
+			    )
+			RETURN
+			CALCULATE (
+			    [Distinct Students, Female],
+			    REMOVEFILTERS ( DimTerm[Academic Year Name] ),
+			    TREATAS ( { _LY_AYName }, DimTerm[Academic Year Name] ))
+		formatString: 0
+		displayFolder: Female
+		lineageTag: 94fd2295-d9db-4f03-9367-8ee053471e6d
+
+	measure 'Distinct Students, Male, LY' =
+			
+			VAR _CY_AYName =
+			    SELECTEDVALUE ( DimTerm[Academic Year Name] )
+			VAR _LY_AYName =
+			    LOOKUPVALUE (
+			        DimTerm[LY_AcademicName],
+			        DimTerm[Academic Year Name], _CY_AYName
+			    )
+			RETURN
+			CALCULATE (
+			    [Distinct Students, Male],
+			    REMOVEFILTERS ( DimTerm[Academic Year Name] ),
+			    TREATAS ( { _LY_AYName }, DimTerm[Academic Year Name] ))
+		formatString: 0
+		displayFolder: Male
+		lineageTag: ec1c3a91-f9b6-450f-aa55-9e9c2f826ff0
+
+	measure 'Distinct Students, Gender Diverse, LY' =
+			
+			VAR _CY_AYName =
+			    SELECTEDVALUE ( DimTerm[Academic Year Name] )
+			VAR _LY_AYName =
+			    LOOKUPVALUE (
+			        DimTerm[LY_AcademicName],
+			        DimTerm[Academic Year Name], _CY_AYName
+			    )
+			RETURN
+			CALCULATE (
+			    [Distinct Students, Gender Diverse],
+			    REMOVEFILTERS ( DimTerm[Academic Year Name] ),
+			    TREATAS ( { _LY_AYName }, DimTerm[Academic Year Name] ))
+		formatString: 0
+		displayFolder: Gender Diverse
+		lineageTag: d15235f8-bbf4-435b-b643-a1ec442c4213
+
+	measure 'Distinct Students, Undeclared, LY' =
+			
+			VAR _CY_AYName =
+			    SELECTEDVALUE ( DimTerm[Academic Year Name] )
+			VAR _LY_AYName =
+			    LOOKUPVALUE (
+			        DimTerm[LY_AcademicName],
+			        DimTerm[Academic Year Name], _CY_AYName
+			    )
+			RETURN
+			CALCULATE (
+			    [Distinct Students, Undeclared],
+			    REMOVEFILTERS ( DimTerm[Academic Year Name] ),
+			    TREATAS ( { _LY_AYName }, DimTerm[Academic Year Name] ))
+		formatString: 0
+		displayFolder: Undeclared
+		lineageTag: cdab8a77-cb49-409f-8b75-8c404aeb1f9f
+
+	measure 'Ref Label Domestic' = ```
+			
+			VAR _dom = [Distinct Students, Domestic]
+			RETURN
+			FORMAT(_dom, "0,#") & " students" 
+			
+			```
+		displayFolder: Domestic
+		lineageTag: 204cdc80-f71f-47bc-a958-2824fba734fe
+
+	measure 'Ref Label Indigenous' = ```
+			
+			VAR _dom = [Distinct Students, Indigenous]
+			RETURN
+			FORMAT(_dom, "0,#") & " students" 
+			```
+		displayFolder: Indigenous
+		lineageTag: d05d9f76-008b-4732-b3da-e638eb519c32
+
+	measure 'Ref Label International' = ```
+			
+			VAR _dom = [Distinct Students, International]
+			RETURN
+			FORMAT(_dom, "0,#") & " students" 
+			```
+		displayFolder: International Total
+		lineageTag: c3ed3681-341f-485e-b905-6358e1f0fd51
+
+	measure 'Top N Citiz' = ```
+			
+			VAR _TopNSelected = SELECTEDVALUE('TopN Selection'[Value])
+			VAR _TopCitizTable =
+			    TOPN(
+			            _TopNSelected,
+			            ALLSELECTED('Pseudo Citizen table'),
+			            [Distinct Students, International Visa]
+			         )
+			VAR _TopCitizCount = 
+			    CALCULATE(
+			        [Distinct Students, International Visa],
+			        KEEPFILTERS(_TopCitizTable)
+			        )
+			VAR _OthersCount = 
+			    CALCULATE(
+			        [Distinct Students, International Visa],
+			        ALLSELECTED('Pseudo Citizen table')
+			    ) - 
+			    CALCULATE(
+			        [Distinct Students, International Visa],
+			        _TopCitizTable
+			    )
+			VAR _currentCitiz = SELECTEDVALUE('Pseudo Citizen table'[CitizenshipName])
+			
+			RETURN
+			IF(
+			    _currentCitiz <> "Others",
+			    _TopCitizCount,
+			    _OthersCount
+			)
+			```
+		formatString: #,0
+		displayFolder: International Total
+		lineageTag: 08a8397e-7c09-4fd8-bba4-ef1a1c0ffc01
+
+	measure 'TopN Rank' =
+			
+			IF(
+			    [Top N Citiz] <> BLANK(),
+			    RANKX(
+			        TOPN(
+			            SELECTEDVALUE('TopN Selection'[Value]),
+			            ALLSELECTED('Pseudo Citizen table'),
+			            [Distinct Students, International Visa]
+			            ),
+			        [Distinct Students, International Visa],,
+			        DESC,
+			        Dense
+			    )
+			
+			            )
+		formatString: 0
+		displayFolder: International Total
+		lineageTag: b23f9ba5-ed57-40eb-939a-4fe46a89e9d2
+
+	measure 'Percentage Students, International, Female' =
+			
+			VAR _female = CALCULATE(
+			                    [Distinct Students DaysBetween],
+			                    DimStudent[New_isInternational] = "International",
+			                    DimStudent[New_Gender] = "Female"
+			                )
+			RETURN
+			DIVIDE(_female,[Distinct Students, International], BLANK())
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: International Total
+		lineageTag: 1641a8e6-d42f-4249-a094-13ff57d87c93
+
+	measure 'Percentage Students, International, Male' =
+			
+			VAR _Male = CALCULATE(
+			                    [Distinct Students DaysBetween],
+			                    DimStudent[New_isInternational] = "International",
+			                    DimStudent[New_Gender] = "Male"
+			                )
+			RETURN
+			DIVIDE(_Male,[Distinct Students, International], BLANK())
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: International Total
+		lineageTag: 8d78905d-0bee-40c2-836d-67d7afe2b715
+
+	measure 'Percentage Students, International, Gender Diverse' =
+			
+			VAR _GenderDiverse  = CALCULATE(
+			                    [Distinct Students DaysBetween],
+			                    DimStudent[New_isInternational] = "International",
+			                    DimStudent[New_Gender] = "Gender Diverse"
+			                )
+			RETURN
+			DIVIDE(_GenderDiverse,[Distinct Students, International], BLANK())
+		formatString: 0.0
+		displayFolder: International Total
+		lineageTag: 940271c3-c01c-4b6f-bf80-711cbb923c66
+
+	measure 'Percentage Students, International, Undeclared' =
+			
+			VAR _Undeclared = CALCULATE(
+			                    [Distinct Students DaysBetween],
+			                    DimStudent[New_isInternational] = "International",
+			                    DimStudent[New_Gender] = "Undeclared"
+			                )
+			RETURN
+			DIVIDE(_Undeclared,[Distinct Students, International], BLANK())
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: International Total
+		lineageTag: 9af79caa-df79-4a9a-addd-d8f7ce42c8ee
+
+	measure 'Intl 5 Yr % (Percent of Parent)' = ```
+			
+			VAR _Num = [Distinct Students, International]
+			
+			VAR _IsProgram =
+			    ISINSCOPE(DimProgramTrack[ProgramTitle])   -- replace if needed
+			VAR _IsFamily =
+			    ISINSCOPE(DimProgramTrack[FamilyAcademicProgramTitle])  -- replace if needed
+			VAR _IsDivision =
+			    ISINSCOPE(DimOrganizationalUnit[AnalyticDivisionName])
+			
+			VAR _IsGrandTotal =
+			    NOT ( _IsProgram || _IsFamily || _IsDivision )
+			
+			VAR _Den =
+			    SWITCH(
+			        TRUE(),
+			
+			        /* Program row: Program / Family */
+			        _IsProgram,
+			            CALCULATE(
+			                [Distinct Students, International],
+			                REMOVEFILTERS(DimProgramTrack[ProgramTitle])
+			            ),
+			
+			        /* Family row: Family / Division */
+			        _IsFamily,
+			            CALCULATE(
+			                [Distinct Students, International],
+			                REMOVEFILTERS(DimProgramTrack[ProgramTitle]),
+			                REMOVEFILTERS(DimProgramTrack[FamilyAcademicProgramTitle])
+			            ),
+			
+			        /* Division row: Division / All Divisions */
+			        _IsDivision,
+			            CALCULATE(
+			                [Distinct Students, International],
+			                REMOVEFILTERS(DimProgramTrack[ProgramTitle]),
+			                REMOVEFILTERS(DimProgramTrack[FamilyAcademicProgramTitle]),
+			                REMOVEFILTERS(DimOrganizationalUnit[AnalyticDivisionName])
+			            ),
+			
+			        BLANK()
+			    )
+			
+			RETURN
+			IF(
+			    _IsGrandTotal,
+			    BLANK(),
+			    DIVIDE(_Num, _Den)
+			)
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: International Total
+		lineageTag: 3d15abb6-a1d3-4b77-b2ae-71795e99c37b
+
+	measure 'Distinct Students, Indigenous, Métis' = ```
+			
+			CALCULATE([Distinct Students DaysBetween], 
+			            DimStudent[isIndigenous] = "Yes",
+			            DimStudent[isMetis] = "Yes")
+			```
+		formatString: 0
+		displayFolder: Indigenous
+		lineageTag: a836d6f6-ccfb-4ffe-a3d8-6f0042970940
+
+	measure 'Distinct Students, Indigenous, Inuit' = ```
+			
+			CALCULATE([Distinct Students DaysBetween], 
+			            DimStudent[isIndigenous] = "Yes",
+			            DimStudent[isInuit] = "Yes")
+			```
+		formatString: 0
+		displayFolder: Indigenous
+		lineageTag: e8c7db76-f5eb-4066-a2df-aa4c40630e9d
+
+	measure 'Distinct Students, Indigenous, Status' = ```
+			
+			CALCULATE([Distinct Students, Domestic], 
+			            DimStudent[isIndigenous] = "Yes",
+			            DimStudent[isIndigenousStatus] = "Yes")
+			```
+		formatString: 0
+		displayFolder: Indigenous
+		lineageTag: a5e82166-f2c5-4d6a-a868-1bc407a34510
+
+	measure 'Distinct Students, Indigenous, Non Status' = ```
+			
+			CALCULATE([Distinct Students DaysBetween], 
+			            DimStudent[isIndigenous] = "Yes",
+			            DimStudent[isIndigenousNonStatus] = "Yes")
+			```
+		formatString: 0
+		displayFolder: Indigenous
+		lineageTag: 3ae89c5e-2378-4a30-9515-7eed83a7f6f0
+
+	measure 'KPI Indigenous Change No to Yes (AY and Session)' =
+			
+			VAR WindowStart =
+			    CALCULATE ( MIN ( DimTerm[TermStartDate] ) )
+			VAR WindowEnd =
+			    CALCULATE ( MAX ( DimTerm[TermEndDate] ) )
+			
+			VAR PeopleInScope =
+			    VALUES ( FactPrograms[person_pk] )
+			
+			VAR ChangeEvents_NoToYes_InWindow =
+			    FILTER (
+			        ADDCOLUMNS (
+			            ALL ( 'Type2 changes' ),
+			            "PrevInd",
+			                VAR pk = 'Type2 changes'[person_pk]
+			                VAR vf = 'Type2 changes'[ValidFrom]
+			                RETURN
+			                    MAXX (
+			                        TOPN (
+			                            1,
+			                            FILTER (
+			                                ALL ( 'Type2 changes' ),
+			                                'Type2 changes'[person_pk] = pk
+			                                    && 'Type2 changes'[ValidFrom] < vf
+			                            ),
+			                            'Type2 changes'[ValidFrom], DESC
+			                        ),
+			                        'Type2 changes'[isIndigenous]
+			                    )
+			        ),
+			        'Type2 changes'[ValidFrom] >= WindowStart
+			            && 'Type2 changes'[ValidFrom] <= WindowEnd
+			            && [PrevInd] = "No"
+			            && 'Type2 changes'[isIndigenous] = "Yes"
+			    )
+			
+			VAR PeopleWhoChanged =
+			    SELECTCOLUMNS ( ChangeEvents_NoToYes_InWindow, "person_pk", 'Type2 changes'[person_pk] )
+			
+			RETURN
+			COUNTROWS ( INTERSECT ( PeopleInScope, PeopleWhoChanged ) )
+		formatString: 0
+		displayFolder: Indigenous
+		lineageTag: a06db269-913a-41df-a32c-71ad9b441fca
+
+	measure 'Status Share %' =
+			
+			DIVIDE([Distinct Students, Indigenous, Status], [Distinct Students, Indigenous], blank())
+		formatString: 0%;-0%;0%
+		displayFolder: Indigenous
+		lineageTag: baf58d00-da37-4d50-a748-25485c98c244
+
+	measure 'Metis Share %' =
+			
+			DIVIDE([Distinct Students, Indigenous, Métis], [Distinct Students, Indigenous], blank())
+		formatString: 0%;-0%;0%
+		displayFolder: Indigenous
+		lineageTag: 2fd6ade0-169a-4a02-8337-9a069be822ea
+
+	measure 'Distinct Students, Domestic (Non-Indigenous)' = [Distinct Students, Domestic] - [Distinct Students, Indigenous]
+		formatString: #,0
+		displayFolder: Domestic (Non-Indigenous)
+		lineageTag: b0c6761c-de87-4dd0-9cea-e8f14d21815f
+
+	measure 'Distinct Students, Domestic (Non-Indigenous), LY' =
+			
+			VAR _CY_AYName =
+			    SELECTEDVALUE ( DimTerm[Academic Year Name] )
+			VAR _LY_AYName =
+			    LOOKUPVALUE (
+			        DimTerm[LY_AcademicName],
+			        DimTerm[Academic Year Name], _CY_AYName
+			    )
+			RETURN
+			CALCULATE (
+			    [Distinct Students, Domestic (Non-Indigenous)],
+			    REMOVEFILTERS ( DimTerm[Academic Year Name] ),
+			    TREATAS ( { _LY_AYName }, DimTerm[Academic Year Name] ))
+		formatString: 0
+		displayFolder: Domestic (Non-Indigenous)
+		lineageTag: 422262a0-953d-4bc9-aa30-9bb3a33681a8
+
+	measure 'Percentage Domestic (Non-Indigenous)' =
+			
+			DIVIDE([Distinct Students, Domestic (Non-Indigenous)], [Distinct Students DaysBetween], BLANK())
+		formatString: 0%;-0%;0%
+		displayFolder: Domestic (Non-Indigenous)
+		lineageTag: 7de1b3dc-cacf-4cde-a8f5-587a8bfec763
+
+	measure 'Distinct Students, International Visa' =
+			
+			CALCULATE(
+			    [Distinct Students, International],
+			    FactPrograms[International_Mix] = "International Visa")
+			
+			// VAR ExcludedPeople =
+			//     CALCULATETABLE(
+			//         VALUES(FactPrograms[person_pk]),
+			//         FactPrograms[DaysBetween] > 4,
+			//         DimStudent[New_isInternational] = "International",
+			//         DimProgramTrack[Program] IN { "IEETF-DP", "PSIEJ-NA" }
+			//     )
+			// RETURN
+			// CALCULATE(
+			//     DISTINCTCOUNT(FactPrograms[person_pk]),
+			//     FactPrograms[DaysBetween] > 4,
+			//     DimStudent[New_isInternational] = "International",
+			//     FILTER(
+			//         VALUES(FactPrograms[person_pk]),
+			//         NOT ( FactPrograms[person_pk] IN ExcludedPeople )
+			//     )
+			// )
+		formatString: #,0
+		displayFolder: International Visa
+		lineageTag: f689b20d-962c-4e84-83cf-e6f3a1e1fcb1
+
+	measure 'Distinct Students, International Non-visa' =
+			
+			CALCULATE(
+			    [Distinct Students, International],
+			    FactPrograms[International_Mix] = "International Non-Visa")
+			
+			// VAR IncludedPeople =
+			//     CALCULATETABLE(
+			//         VALUES(FactPrograms[person_pk]),
+			//         FactPrograms[DaysBetween] > 4,
+			//         DimStudent[New_isInternational] = "International",
+			//         DimProgramTrack[Program] IN { "IEETF-DP", "PSIEJ-NA" }
+			//     )
+			// RETURN
+			// CALCULATE(
+			//     DISTINCTCOUNT(FactPrograms[person_pk]),
+			//     FactPrograms[DaysBetween] > 4,
+			//     DimStudent[New_isInternational] = "International",
+			//     KEEPFILTERS( TREATAS(IncludedPeople, FactPrograms[person_pk]) )
+			// )
+		formatString: #,0
+		displayFolder: International Non-visa
+		lineageTag: 64c6d6c9-cec9-472d-b067-fddef70b4151
+
+	measure 'Distinct Students, International Visa, LY' =
+			
+			VAR _CY_AYName =
+			    SELECTEDVALUE ( DimTerm[Academic Year Name] )
+			VAR _LY_AYName =
+			    LOOKUPVALUE (
+			        DimTerm[LY_AcademicName],
+			        DimTerm[Academic Year Name], _CY_AYName
+			    )
+			RETURN
+			CALCULATE (
+			    [Distinct Students, International Visa],
+			    REMOVEFILTERS ( DimTerm[Academic Year Name] ),
+			    TREATAS ( { _LY_AYName }, DimTerm[Academic Year Name] ))
+		formatString: #,0
+		displayFolder: International Visa
+		lineageTag: d1db2db3-541d-4f6b-a95b-42a085b1aeef
+
+	measure 'Percentage International Visa' =
+			
+			DIVIDE([Distinct Students, International Visa], [Distinct Students DaysBetween], BLANK())
+		formatString: 0%;-0%;0%
+		displayFolder: International Visa
+		lineageTag: fd5010d9-a16c-4178-920c-c23a50c2a957
+
+	measure 'Percentage International Non-Visa' =
+			
+			DIVIDE([Distinct Students, International Non-visa], [Distinct Students DaysBetween], BLANK())
+		formatString: 0%;-0%;0%
+		displayFolder: International Non-visa
+		lineageTag: bd8381ff-1739-4043-8b32-777634a4706e
+
+	measure 'Ref Label Domestic (Non-Indigenous)' = ```
+			
+			VAR _dom = [Distinct Students, Domestic (Non-Indigenous)]
+			RETURN
+			FORMAT(_dom, "0,#") & " students" 
+			```
+		displayFolder: Domestic (Non-Indigenous)
+		lineageTag: 9bdbea99-52d5-455a-b0a3-5acb139cae10
+
+	measure 'Distinct Students, International Non-visa, LY' =
+			
+			VAR _CY_AYName =
+			    SELECTEDVALUE ( DimTerm[Academic Year Name] )
+			VAR _LY_AYName =
+			    LOOKUPVALUE (
+			        DimTerm[LY_AcademicName],
+			        DimTerm[Academic Year Name], _CY_AYName
+			    )
+			RETURN
+			CALCULATE (
+			    [Distinct Students, International Non-visa],
+			    REMOVEFILTERS ( DimTerm[Academic Year Name] ),
+			    TREATAS ( { _LY_AYName }, DimTerm[Academic Year Name] ))
+		formatString: 0
+		displayFolder: International Non-visa
+		lineageTag: 1fcb7c15-767e-44b9-adf7-573d386c049e
+
+	measure 'Indigenous Var %' =
+			
+			VAR _diff = [Distinct Students, Indigenous] - [Distinct Students, Indigenous, LY]  // Keep this as is
+			VAR _varYoY = DIVIDE ( _diff, [Distinct Students, Indigenous, LY] ) // Keep this as is
+			RETURN
+			_varYoY
+		formatString: 0%;-0%;0%
+		displayFolder: Indigenous
+		lineageTag: 04c3ff51-6750-42f1-a32b-a55e3cbe2b4e
+
+	measure 'TopN Color' =
+			
+			SWITCH(
+			    SELECTEDVALUE('Pseudo Citizen table'[CitizenshipName]),
+			    "Others", "#D9D9D9",
+			    "#3550D4"
+			)
+		displayFolder: International Total
+		lineageTag: 53f88666-3db7-4eec-bfa9-72e4d3af1a24
+
+	measure 'TopN Title' = ```
+			
+			VAR _top = SELECTEDVALUE('TopN Selection'[Value])
+			RETURN
+			IF(ISBLANK(_top),
+			"INTERNATIONAL STUDENTS BY COUNTRY",
+			"INTERNATIONAL STUDENTS BY COUNTRY | Top"  
+			)
+			```
+		displayFolder: International Total
+		lineageTag: 0a6683e1-34ff-401f-9b0a-fc9a1312d23a
+
+	measure 'Distinct Students, Non-Indigenous' = ```
+			
+			CALCULATE([Distinct Students, Domestic], 
+			    FILTER(DimStudent, DimStudent[isIndigenous] = "No"))
+			```
+		formatString: 0
+		displayFolder: Domestic (Non-Indigenous)
+		lineageTag: f49efe3b-2862-4b46-941d-e05be5171a3a
+
+	measure 'Distinct Students,Domestic (Non-Indigenous), Female' = ```
+			
+			    CALCULATE(
+			       [Distinct Students, Domestic (Non-Indigenous)],
+			        FILTER(DimStudent,DimStudent[New_Gender] = "Female"))
+			```
+		formatString: 0
+		lineageTag: 9840cd3d-2e3b-4b1b-bbd3-0fdd6d754f67
+
+	partition 'Demographic Measures' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

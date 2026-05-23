@@ -1,0 +1,569 @@
+table 'Support Measures'
+	lineageTag: f0c19484-d348-48d4-b809-2889e176cfee
+
+	measure 'Text measure' = ```
+			1
+			
+			```
+		formatString: 0
+		lineageTag: 86ba5a8a-d4f2-40d0-abc9-c474a9ca152a
+
+	measure Width_measure =
+			
+			REPT("|",10)
+		lineageTag: f160e531-55ab-4862-bade-e01d110055fc
+
+	measure 'Target Domestic Supprt' = 1
+		formatString: 0
+		lineageTag: b37873fa-a879-4f00-b05a-4a0538547480
+
+	measure 'Overview Title' = ```
+			
+			VAR _Diff = [Distinct Students DaysBetween] - [Distinct Students DaysBetween, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students DaysBetween, LY] ) // Keep this as is
+			VAR _year = SELECTEDVALUE(DimTerm[Academic Year Name])
+			VAR _text = "Credential program " 
+			
+			--General Pattern
+			VAR _roundedPct =
+			    ROUND ( ABS ( _pct ), 3 ) 
+			    -- 3 decimals here means 0.001 = 0.1 percentage points
+			
+			VAR _direction =
+			    SWITCH (
+			        TRUE(),
+			        _pct > 0, "increased",
+			        _pct < 0, "declined",
+			        "Remained stable"
+			    )
+			
+			RETURN
+			SWITCH (
+			    TRUE(),
+			
+			    ISBLANK ( _pct ),
+			        _text & "headcount in " & _year,
+			
+			    _roundedPct = 0,
+			        _text & "headcount remained stable in " & _year,
+			
+			    _roundedPct >= 0.01,
+			        _text & "headcount "
+			            & _direction
+			            & " "
+			            & FORMAT ( _roundedPct, "0%" )
+			            & " in "
+			            & _year,
+			
+			    _text & "headcount changed slightly in " & _year
+			)
+			```
+		displayFolder: Dynamic Titles
+		lineageTag: ed1ed3d9-2443-4c7d-b1af-393bb758f523
+
+	measure 'Overview subtitle' = ```
+			
+			
+			VAR _Diff = [Distinct Students DaysBetween] - [Distinct Students DaysBetween, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students DaysBetween, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students DaysBetween, LY]
+			
+			VAR _year = SELECTEDVALUE(DimTerm[Academic Year Name])
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _sign =
+			        IF (
+			            _pct > 0,
+			            "increase ",
+			            "decline "
+			        )   // Correct the sign logic
+			 
+			RETURN
+			"Which academic schools are driving the " & _sign & " in " & _year & "?"
+			 
+			```
+		displayFolder: Dynamic Titles
+		lineageTag: 80374a3e-ced1-4fa0-945f-d67e76220fdf
+
+	measure 'Domestic Change vs LY label' = ```
+			
+			VAR _Diff = [Distinct Students, Domestic] - [Distinct Students, Domestic, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Domestic, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, Domestic, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _year = SELECTEDVALUE(DimTerm[Academic Year Name])
+			
+			VAR _sign =
+			        IF (
+			            _pct > 0,
+			            "increase ",
+			            "decline "
+			        )   // Correct the sign logic
+			 
+			RETURN
+			"Headcount " & _sign
+			 
+			```
+		displayFolder: Chnage Labels
+		lineageTag: 50078fd2-f724-44e9-abca-b840b22c4cf2
+
+	measure 'Domestic Title' = ```
+			
+			VAR _Diff =
+			    [Distinct Students, Domestic (Non-Indigenous)] - [Distinct Students, Domestic (Non-Indigenous), LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Domestic (Non-Indigenous), LY] ) // Keep this as is
+			VAR _year = SELECTEDVALUE(DimTerm[Academic Year Name])
+			
+			VAR _text = "Domestic (Non-Indigenous) " 
+			
+			--General Pattern
+			VAR _roundedPct =
+			    ROUND ( ABS ( _pct ), 3 ) 
+			    -- 3 decimals here means 0.001 = 0.1 percentage points
+			
+			VAR _direction =
+			    SWITCH (
+			        TRUE(),
+			        _pct > 0, "increased",
+			        _pct < 0, "declined",
+			        "Remained stable"
+			    )
+			
+			RETURN
+			SWITCH (
+			    TRUE(),
+			
+			    ISBLANK ( _pct ),
+			        _text & "headcount in " & _year,
+			
+			    _roundedPct = 0,
+			        _text & "headcount remained stable in " & _year,
+			
+			    _roundedPct >= 0.01,
+			        _text & "headcount "
+			            & _direction
+			            & " "
+			            & FORMAT ( _roundedPct, "0%" )
+			            & " in "
+			            & _year,
+			
+			    _text & "headcount changed slightly in " & _year
+			)
+			```
+		displayFolder: Dynamic Titles
+		lineageTag: 4991fefc-463d-4439-83c5-eab2591ef31f
+
+	measure 'Domestic subtitle' = ```
+			
+			
+			VAR _Diff = [Distinct Students, Domestic] - [Distinct Students, Domestic, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Domestic, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, Domestic, LY]
+			
+			VAR _year = SELECTEDVALUE(DimTerm[Academic Year Name])
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _sign =
+			        IF (
+			            _pct > 0,
+			            "increase ",
+			            "decline "
+			        )   // Correct the sign logic
+			 
+			RETURN
+			"Which schools, divisions and programs are driving the " & _sign & " in " & _year & "?"
+			```
+		displayFolder: Dynamic Titles
+		lineageTag: 6db52a66-89ef-41c4-af81-c88e21a2c334
+
+	measure 'International Visa Title' = ```
+			
+			VAR _Diff = [Distinct Students, International Visa] - [Distinct Students, International Visa, LY]
+			VAR _pct = DIVIDE (_Diff, [Distinct Students, International Visa, LY])
+			VAR _year = SELECTEDVALUE ( DimTerm[Academic Year Name] )
+			
+			VAR _text = "International visa " 
+			
+			--General Pattern
+			VAR _roundedPct =
+			    ROUND ( ABS ( _pct ), 3 ) 
+			    -- 3 decimals here means 0.001 = 0.1 percentage points
+			
+			VAR _direction =
+			    SWITCH (
+			        TRUE(),
+			        _pct > 0, "increased",
+			        _pct < 0, "declined",
+			        "Remained stable"
+			    )
+			
+			RETURN
+			SWITCH (
+			    TRUE(),
+			
+			    ISBLANK ( _pct ),
+			        _text & "headcount in " & _year,
+			
+			    _roundedPct = 0,
+			        _text & "headcount remained stable in " & _year,
+			
+			    _roundedPct >= 0.01,
+			        _text & "headcount "
+			            & _direction
+			            & " "
+			            & FORMAT ( _roundedPct, "0%" )
+			            & " in "
+			            & _year,
+			
+			    _text & "headcount changed slightly in " & _year
+			)
+			```
+		displayFolder: Dynamic Titles
+		lineageTag: cd64a08b-1db8-4e44-9721-132e2d3f01fe
+
+	measure 'International Visa subtitle' = ```
+			
+			
+			VAR _Diff = [Distinct Students, International Visa] - [Distinct Students, International Visa, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, International Visa, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, International Visa, LY]
+			
+			VAR _year = SELECTEDVALUE(DimTerm[Academic Year Name])
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _sign =
+			        IF (
+			            _pct > 0,
+			            "increase ",
+			            "decline "
+			        )   // Correct the sign logic
+			 
+			RETURN
+			"Which schools, divisions and family programs are driving the " & _sign & " in " & _year & "?"
+			```
+		displayFolder: Dynamic Titles
+		lineageTag: 42c0f5f2-ff26-4446-b73d-1eab9b5b35e9
+
+	measure 'International Visa Change vs LY label' = ```
+			
+			VAR _Diff = [Distinct Students, International Visa] - [Distinct Students, International Visa, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, International Visa, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, International Visa, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _year = SELECTEDVALUE(DimTerm[Academic Year Name])
+			
+			VAR _sign =
+			        IF (
+			            _pct > 0,
+			            "increase ",
+			            "decline "
+			        )   // Correct the sign logic
+			 
+			RETURN
+			"Headcount " & _sign
+			```
+		displayFolder: Chnage Labels
+		lineageTag: cfb0c57b-5737-4f24-a18c-2880ba095d76
+
+	measure 'Int Non Visa Change vs LY label' = ```
+			
+			VAR _Diff = [Distinct Students, International Non-visa] - [Distinct Students, International Non-visa, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, International Non-visa, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, International Non-visa, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _year = SELECTEDVALUE(DimTerm[Academic Year Name])
+			
+			VAR _sign =
+			        IF (
+			            _pct > 0,
+			            "increase ",
+			            "decline "
+			        )   // Correct the sign logic
+			 
+			RETURN
+			"Headcount " & _sign
+			```
+		displayFolder: Chnage Labels
+		lineageTag: 7b6b9eb0-7354-41ce-a02e-59c6b20a3922
+
+	measure 'International Non Visa Title' = ```
+			
+			VAR _Diff = [Distinct Students, International Non-Visa] - [Distinct Students, International Non-Visa, LY]
+			VAR _pct = DIVIDE (_Diff, [Distinct Students, International Non-Visa, LY])
+			VAR _year = SELECTEDVALUE ( DimTerm[Academic Year Name] )
+			
+			VAR _text = "International Non-visa " 
+			
+			--General Pattern
+			VAR _roundedPct =
+			    ROUND ( ABS ( _pct ), 3 ) 
+			    -- 3 decimals here means 0.001 = 0.1 percentage points
+			
+			VAR _direction =
+			    SWITCH (
+			        TRUE(),
+			        _pct > 0, "increased",
+			        _pct < 0, "declined",
+			        "Remained stable"
+			    )
+			
+			RETURN
+			SWITCH (
+			    TRUE(),
+			
+			    ISBLANK ( _pct ),
+			        _text & "headcount in " & _year,
+			
+			    _roundedPct = 0,
+			        _text & "headcount remained stable in " & _year,
+			
+			    _roundedPct >= 0.01,
+			        _text & "headcount "
+			            & _direction
+			            & " "
+			            & FORMAT ( _roundedPct, "0%" )
+			            & " in "
+			            & _year,
+			
+			    _text & "headcount changed slightly in " & _year
+			)
+			```
+		lineageTag: 5d7109a9-16be-406b-b5ae-ca415bc0d59c
+
+	measure 'International Non-Visa subtitle' = ```
+			
+			
+			VAR _Diff = [Distinct Students, International Non-Visa] - [Distinct Students, International Non-Visa, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, International Non-Visa, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, International Non-Visa, LY]
+			
+			VAR _year = SELECTEDVALUE(DimTerm[Academic Year Name])
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _sign =
+			        IF (
+			            _pct > 0,
+			            "increase ",
+			            "decline "
+			        )   // Correct the sign logic
+			 
+			RETURN
+			"Which schools, divisions and family programs are driving the " & _sign & " in " & _year & "?"
+			```
+		lineageTag: 7a0fe693-631a-46e8-b125-b0c32d1583d7
+
+	measure 'Indigenous Change vs LY label' = ```
+			
+			VAR _Diff = [Distinct Students, Indigenous] - [Distinct Students, Indigenous, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Indigenous, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, Indigenous, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _year = SELECTEDVALUE(DimTerm[Academic Year Name])
+			
+			VAR _sign =
+			        IF (
+			            _pct > 0,
+			            "increase ",
+			            "decline "
+			        )   // Correct the sign logic
+			 
+			RETURN
+			"Headcount " & _sign
+			 
+			```
+		lineageTag: 49ced49d-928c-4ae0-90a1-6cc0a89f6bf6
+
+	measure 'Indigenous Title' = ```
+			
+			VAR _Diff =
+			    [Distinct Students, Indigenous] - [Distinct Students, Indigenous, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Indigenous, LY] ) // Keep this as is
+			VAR _year = SELECTEDVALUE(DimTerm[Academic Year Name])
+			
+			VAR _text = "Indigenous " 
+			
+			--General Pattern
+			VAR _roundedPct =
+			    ROUND ( ABS ( _pct ), 3 ) 
+			    -- 3 decimals here means 0.001 = 0.1 percentage points
+			
+			VAR _direction =
+			    SWITCH (
+			        TRUE(),
+			        _pct > 0, "increased",
+			        _pct < 0, "declined",
+			        "Remained stable"
+			    )
+			
+			RETURN
+			SWITCH (
+			    TRUE(),
+			
+			    ISBLANK ( _pct ),
+			        _text & "headcount in " & _year,
+			
+			    _roundedPct = 0,
+			        _text & "headcount remained stable in " & _year,
+			
+			    _roundedPct >= 0.01,
+			        _text & "headcount "
+			            & _direction
+			            & " "
+			            & FORMAT ( _roundedPct, "0%" )
+			            & " in "
+			            & _year,
+			
+			    _text & "headcount changed slightly in " & _year
+			)
+			```
+		displayFolder: Dynamic Titles
+		lineageTag: 5e567cd1-d2e2-4846-8a2e-a001a4c2599f
+
+	measure 'Indigenous subtitle' = ```
+			
+			
+			VAR _Diff = [Distinct Students, Indigenous] - [Distinct Students, Indigenous, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Indigenous, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, Indigenous, LY]
+			
+			VAR _year = SELECTEDVALUE(DimTerm[Academic Year Name])
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _sign =
+			        IF (
+			            _pct > 0,
+			            "increase ",
+			            "decline "
+			        )   // Correct the sign logic
+			 
+			RETURN
+			"Which schools, divisions and programs are driving the " & _sign & " in " & _year & "?"
+			```
+		displayFolder: Dynamic Titles
+		lineageTag: fdf8a51d-1757-4a2e-8030-b3edb3adc024
+
+	measure 'Total Student Selector' =
+			
+			
+			VAR _activity =
+			    SELECTEDVALUE( 'Student Type Selector'[Student Type] )
+			
+			VAR _value =
+			    SWITCH(
+			        TRUE(),
+			        _activity = "Domestic Non-indigenous", [Distinct Students, Domestic (Non-Indigenous)],
+			        _activity = "Domestic Indigenous", [Distinct Students, Indigenous],
+			        _activity = "International Visa", [Distinct Students, International Visa],
+			        _activity = "International Non-visa", [Distinct Students, International Non-visa],
+			        BLANK()
+			    )
+			
+			RETURN
+			_value
+		formatString: #,0
+		lineageTag: 455ac615-16cf-47f1-b777-f54affa87957
+
+	measure 'YoY Student Selector' =
+			
+			
+			VAR _activity =
+			    SELECTEDVALUE( 'Student Type Selector'[Student Type] )
+			
+			VAR _value =
+			    SWITCH(
+			        TRUE(),
+			        _activity = "Domestic Non-indigenous", [Percent Change Distinct Count Domestic Non-Indigenous],
+			        _activity = "Domestic Indigenous", [Percent Change Distinct Count Indigenous],
+			        _activity = "International Visa", [Percent Change Distinct Count International Visa],
+			        _activity = "International Non-visa", [Percent Change Distinct Count International Non-visa],
+			        BLANK()
+			    )
+			
+			RETURN
+			_value
+		formatString: 0%;-0%;0%
+		lineageTag: f3b668c0-3b14-44d3-b6a9-ec1592a8d54e
+
+	measure 'Overview subtitle2' = ```
+			
+			
+			VAR _Diff = [Distinct Students DaysBetween] - [Distinct Students DaysBetween, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students DaysBetween, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students DaysBetween, LY]
+			
+			VAR _year = SELECTEDVALUE(DimTerm[Academic Year Name])
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _sign =
+			        IF (
+			            _pct > 0,
+			            "increase ",
+			            "decline "
+			        )   // Correct the sign logic
+			 
+			RETURN
+			"Which students groups amd academic schools are driving the headcount " & _sign & " in " & _year & "?"
+			 
+			```
+		lineageTag: 81b90da5-409b-4583-b02e-2f38906445b6
+
+	measure 'AllStudents Change vs LY label' = ```
+			
+			VAR _Diff = [Distinct Students DaysBetween] - [Distinct Students DaysBetween, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students DaysBetween, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students DaysBetween, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _year = SELECTEDVALUE(DimTerm[Academic Year Name])
+			
+			VAR _sign =
+			        IF (
+			            _pct > 0,
+			            "increase ",
+			            "decline "
+			        )   // Correct the sign logic
+			 
+			RETURN
+			"Headcount " & _sign
+			```
+		displayFolder: Chnage Labels
+		lineageTag: 718eaab7-8064-4552-a756-1d31e949622a
+
+	partition 'Support Measures' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

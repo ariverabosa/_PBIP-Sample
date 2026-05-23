@@ -1,0 +1,20 @@
+relationship 346eb0a8-901d-0e17-f4d5-341da3213c3a
+	fromColumn: FactPrograms.acad_programs_pk
+	toColumn: DimProgramTrack.acad_programs_pk
+
+relationship ee095840-102a-9477-ab05-a76c4ca07feb
+	fromColumn: FactPrograms.person_pk
+	toColumn: DimStudent.person_pk
+
+relationship AutoDetected_88c16086-9486-4c3d-b11f-ce1232b4012b
+	fromColumn: FactPrograms.DimTermKey
+	toColumn: DimTerm.DimTermKey
+
+relationship AutoDetected_4b9c283a-7f13-4da1-93c4-e785ad95bd5f
+	fromColumn: FactPrograms.DimOrganizationalUnitKey
+	toColumn: DimOrganizationalUnit.DimOrganizationalUnitKey
+
+relationship 60a251d6-414b-dbda-6a81-82dc37c090b5
+	fromColumn: DimStudent.CitizenshipName
+	toColumn: 'Pseudo Citizen table'.CitizenshipName
+

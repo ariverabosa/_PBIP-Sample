@@ -1,0 +1,1305 @@
+table 'Text Cards / Line & Bar Chart'
+	lineageTag: 3174754e-397a-45dc-8aa4-cdfb39902abb
+
+	measure 'Card 1-2 Text Number and %' = ```
+			
+			VAR _Diff = [Distinct Students DaysBetween] - [Distinct Students DaysBetween, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students DaysBetween, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students DaysBetween, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			// Math operator and number +105
+			VAR _operatorNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			
+			// Arrow and % change
+			VAR _arrowNumber = 
+			    SWITCH(
+			        TRUE(),
+			        // _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        // _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        _pct > 0, UNICHAR(129109) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(129110) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			        
+			)
+			
+			
+			
+			RETURN
+			//_arrowNumber & " | " & _operatorNumber
+			_arrowNumber 
+			// _operatorNumber
+			
+			```
+		displayFolder: Annual
+		lineageTag: 7cb4aba0-b796-4e47-a4a2-050b4f542b5a
+
+	measure 'Card 1-3 Text comparison' = ```
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 2, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _LY = LOOKUPVALUE(DimTerm[LY_AcademicName], DimTerm[Academic Year Name], _YearName)
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			//  % Change
+			VAR _value = [Distinct Students DaysBetween] - [Distinct Students DaysBetween, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students DaysBetween, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students DaysBetween, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _symbol = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			"vs AY, " & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,        _LY,     //& " " & _Session,
+			        _HasSession && NOT _HasYear,    _CYNName, //& " " & _Session,
+			        NOT _HasSession && _HasYear,    _LY,
+			        _CYNName                        // default
+			    )
+			```
+		displayFolder: Annual
+		lineageTag: 56a24b43-7c6e-4370-ad17-7df980463b57
+
+	measure 'Card 1-1 Text SubTitle' = ```
+			
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)-1
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 1, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			RETURN
+			"Total Students, AY " & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,        _YearName & " " & _Session,
+			        _HasSession && NOT _HasYear,    _CYNName & " " & _Session,
+			        NOT _HasSession && _HasYear,    _YearName,
+			        _CYNName                        // default
+			    )
+			
+			
+			```
+		displayFolder: Annual
+		lineageTag: 08244847-3bea-4ebf-be7c-77b929aed754
+
+	measure 'Card 2-2 Text Number and %' = ```
+			
+			VAR _Diff = [Distinct Students, Domestic (Non-Indigenous)] - [Distinct Students, Domestic (Non-Indigenous), LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Domestic (Non-Indigenous), LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, Domestic (Non-Indigenous), LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			// Math operator and number +105
+			VAR _operatorNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			
+			// Arrow and % change
+			VAR _arrowNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(129109) & " " & FORMAT(_pct, "0%"),
+			        _pct < -0.01, UNICHAR(129110) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			//_operatorNumber & " | " & _arrowNumber
+			//_arrowNumber & " | " & _operatorNumber
+			_arrowNumber
+			```
+		displayFolder: Domestic (Non-Indigenous)
+		lineageTag: 94af94fb-7594-490e-9844-2af4d47e9593
+
+	measure 'Card 2-3 Text comparison' = ```
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 2, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _LY = LOOKUPVALUE(DimTerm[LY_AcademicName], DimTerm[Academic Year Name], _YearName)
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			//  % Change
+			VAR _value = [Distinct Students, Domestic (Non-Indigenous)] - [Distinct Students, Domestic (Non-Indigenous), LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, Domestic (Non-Indigenous), LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, Domestic (Non-Indigenous), LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _symbol = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			"vs LY, " & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,        _LY, // & " " & _Session,
+			        _HasSession && NOT _HasYear,    _CYNName, // & " " & _Session,
+			        NOT _HasSession && _HasYear,    _LY,
+			        _CYNName                        // default
+			    )
+			```
+		displayFolder: Domestic (Non-Indigenous)
+		lineageTag: 8ed018ed-0828-45f3-8aff-d240999833b6
+
+	measure 'Card 2-4 Text SubTitle' = ```
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)-1
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 1, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			RETURN
+			"Domestic (Non-Indigenous) AY " & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,        _YearName & " " & _Session,
+			        _HasSession && NOT _HasYear,    _CYNName & " " & _Session,
+			        NOT _HasSession && _HasYear,    _YearName,
+			        _CYNName                        // default
+			    )
+			```
+		displayFolder: Domestic (Non-Indigenous)
+		lineageTag: 490d380d-b381-4f76-8f03-3705342a7a06
+
+	measure 'Card 3-2 Text Number and %' = ```
+			
+			VAR _Diff = [Distinct Students, International] - [Distinct Students, International, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, International, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, International, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			// Math operator and number +105
+			VAR _operatorNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			
+			// Arrow and % change
+			VAR _arrowNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(129109) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(129110) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			// _operatorNumber & " | " & _arrowNumber
+			// _arrowNumber & " | " & _operatorNumber
+			_arrowNumber
+			```
+		displayFolder: International
+		lineageTag: 00e95e10-6739-4a80-a568-106dc8742c6d
+
+	measure 'Card 3-3 Text comparison' = ```
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 2, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _LY = LOOKUPVALUE(DimTerm[LY_AcademicName], DimTerm[Academic Year Name], _YearName)
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			//  % Change
+			VAR _value = [Distinct Students, International] - [Distinct Students, International, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, International, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, International, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _symbol = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			"vs LY, " & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,        _LY & " " & _Session,
+			        _HasSession && NOT _HasYear,    _CYNName & " " & _Session,
+			        NOT _HasSession && _HasYear,    _LY,
+			        _CYNName                        // default
+			    )
+			```
+		displayFolder: International
+		lineageTag: 0433775a-84d2-4c9a-8516-9afc8fee22ac
+
+	measure 'Card 4-2 Text Number and %' = ```
+			
+			VAR _Diff = [Distinct Students, Indigenous] - [Distinct Students, Indigenous, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Indigenous, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, Indigenous, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			// Math operator and number +105
+			VAR _operatorNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			
+			// Arrow and % change
+			VAR _arrowNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(129109) & " " & FORMAT(_pct, "0%"),
+			        _pct < -0.01, UNICHAR(129110) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			//_operatorNumber & " | " & _arrowNumber
+			//_arrowNumber & " | " & _operatorNumber
+			_arrowNumber
+			```
+		displayFolder: Indigenous
+		lineageTag: d6820551-e30b-4c89-982f-4bac0aea3211
+
+	measure 'Card 4-3 Text comparison' = ```
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 2, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _LY = LOOKUPVALUE(DimTerm[LY_AcademicName], DimTerm[Academic Year Name], _YearName)
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			//  % Change
+			VAR _value = [Distinct Students, Indigenous] - [Distinct Students, Indigenous, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, Indigenous, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, Indigenous, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _symbol = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(129109) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(129110) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			   
+			
+			RETURN
+			"vs LY, " & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,        _LY, // & " " & _Session,
+			        _HasSession && NOT _HasYear,    _CYNName, // & " " & _Session,
+			        NOT _HasSession && _HasYear,    _LY,
+			        _CYNName                        // default
+			    )
+			```
+		displayFolder: Indigenous
+		lineageTag: 24358802-85bb-4c0b-96ad-95bbea516d59
+
+	measure 'Card 1-4 Reference label color value' = ```
+			
+			VAR _value = [Distinct Students DaysBetween] - [Distinct Students DaysBetween, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students DaysBetween, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students DaysBetween, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, "Green",
+			        _pct < 0, "Red",
+			        "Grey"
+			    )
+			RETURN
+			_format 
+			```
+		displayFolder: Annual
+		lineageTag: 26db2998-1970-41b4-bff1-228acd848fe3
+
+	measure 'Card 2-5 Reference label color value' = ```
+			
+			VAR _value = [Distinct Students, Domestic (Non-Indigenous)] - [Distinct Students, Domestic (Non-Indigenous), LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, Domestic (Non-Indigenous), LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, Domestic (Non-Indigenous), LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _pctRounded =
+			    ROUND ( _pct, 2 )
+			
+			VAR _format =
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( _pct ), "Grey",
+			        _pctRounded <= -0.01, "Red",
+			        _pctRounded >= 0.01, "Green",
+			        "Grey"
+			    )
+			
+			RETURN
+			_format 
+			```
+		displayFolder: Domestic (Non-Indigenous)
+		lineageTag: 4d13f974-6571-40a6-9faa-d55a721218de
+
+	measure 'Card 3-4 Reference label color value' = ```
+			
+			VAR _value = [Distinct Students, International] - [Distinct Students, International, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, International, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, International, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, "Green",
+			        _pct < 0, "Red",
+			        "Grey"
+			    )
+			RETURN
+			_format 
+			```
+		displayFolder: International
+		lineageTag: 907870bc-d571-4f68-b814-343d482054c9
+
+	measure 'Card 4-4 Reference label color value' = ```
+			
+			VAR _value = [Distinct Students, Indigenous] - [Distinct Students, Indigenous, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, Indigenous, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, Indigenous, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _pctRounded =
+			    ROUND ( _pct, 2 )
+			
+			VAR _format =
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( _pct ), "Grey",
+			        _pctRounded <= -0.01, "Red",
+			        _pctRounded >= 0.01, "Green",
+			        "Grey"
+			    )
+			
+			RETURN
+			_format 
+			```
+		displayFolder: Indigenous
+		lineageTag: c4f75bb2-36d6-4b6e-af01-e39d72966461
+
+	measure 'Line Chart Title' = ```
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)-1
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 1, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			RETURN
+			"Distinct Students by Academic Year" & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,        ", " & _Session,
+			        _HasSession && NOT _HasYear,    ", " & _Session,
+			        NOT _HasSession && _HasYear,    _YearName
+			                                
+			    )
+			```
+		displayFolder: Line Chart
+		lineageTag: af7e0c08-b5b6-4125-9a8b-7b4872a8b5d7
+
+	measure 'Line Chart shade' = [Line Chart Max Axis] - [Distinct Students DaysBetween]
+		displayFolder: Line Chart
+		lineageTag: d8165bb0-704a-48e8-9d8f-55a177b2e5d2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Line Chart Max Axis' =
+			
+			1.3 *
+			MAXX(
+			    ALLSELECTED(DimTerm[Academic Year Name]),
+			    CALCULATE([Distinct Students DaysBetween])
+			)
+		displayFolder: Line Chart
+		lineageTag: dd1b9fd9-3f24-4a29-ae60-a5597971040b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Bullet Chart Title' = ```
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)-1
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 1, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			RETURN
+			"Students with Activity by Academic School, " & 
+			
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,       _YearName & " "&  _Session,
+			        _HasSession && NOT _HasYear,     _Session,
+			        NOT _HasSession && _HasYear,     _YearName
+			                                
+			    )
+			```
+		displayFolder: Activity by scholl chart
+		lineageTag: 64ba6ab6-71b4-478a-8647-7d9a3298a16e
+
+	measure 'Top  N Chart Title' = ```
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)-1
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 1, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			RETURN
+			"Top 5 Programs by Students with Activity, " & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,       _YearName & " "&  _Session,
+			        _HasSession && NOT _HasYear,     _Session,
+			        NOT _HasSession && _HasYear,     _YearName
+			                                
+			    )
+			```
+		displayFolder: Top N Chart
+		lineageTag: 5b307a81-09a9-4597-ae91-95c762999dc8
+
+	measure 'TopN Bullet chart' = ```
+			
+			VAR _Programs =
+			    ALLSELECTED ( DimProgramTrack[FamilyAcademicProgramTitle] )
+			VAR _Rank =
+			    RANKX (
+			        _Programs,
+			        [Distinct Students DaysBetween],
+			        ,
+			        DESC,
+			        DENSE
+			    )
+			RETURN
+			IF (
+			    ISINSCOPE ( DimProgramTrack[FamilyAcademicProgramTitle] ),
+			    IF ( _Rank <= 5, [Distinct Students DaysBetween], BLANK () ),
+			    [Distinct Students DaysBetween]
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: Top N Chart
+		lineageTag: 3e37a591-a60d-42b2-8796-7eb061032c3b
+
+	measure 'Max Axis Domestic (Non-Indigenous)' =
+			
+			1.3 *
+			MAXX(
+			    ALLSELECTED(DimTerm[Academic Year Name]),
+			    CALCULATE([Distinct Students, Domestic (Non-Indigenous)])
+			)
+		displayFolder: Line Chart
+		lineageTag: 5f15dce3-4256-4925-bf39-932eef504c9b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Max Axis Indigenous' =
+			
+			1.3 *
+			MAXX(
+			    ALLSELECTED(DimTerm[Academic Year Name]),
+			    CALCULATE([Distinct Students, Indigenous] )
+			)
+		displayFolder: Line Chart
+		lineageTag: 3235c14f-6bf3-4a10-9108-d2dd31880d50
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Max Axis International Visa' =
+			
+			1.3 *
+			MAXX(
+			    ALLSELECTED(DimTerm[Academic Year Name]),
+			    CALCULATE([Distinct Students, International Visa] )
+			)
+		displayFolder: Line Chart
+		lineageTag: 29691d3e-5b21-44a2-be71-36d91b2af628
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Max Axis International Non-Visa' =
+			
+			1.3 *
+			MAXX(
+			    ALLSELECTED(DimTerm[Academic Year Name]),
+			    CALCULATE([Distinct Students, International Non-visa] )
+			)
+		displayFolder: Line Chart
+		lineageTag: 52ec11ad-acca-4acc-bf89-c5fd70eee27f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Card 5-2 Text Number and %' = ```
+			
+			VAR _Diff = [Distinct Students, International Non-visa] - [Distinct Students, International Non-visa, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, International Non-visa, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, International Non-visa, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			// Math operator and number +105
+			VAR _operatorNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			
+			// Arrow and % change
+			VAR _arrowNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 1, UNICHAR(129109) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(129110) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			// _operatorNumber & " | " & _arrowNumber
+			//_arrowNumber & " | " & _operatorNumber
+			_arrowNumber
+			```
+		displayFolder: International Non-visa
+		lineageTag: fcc0d16c-88d6-41f1-95b3-10f32f7d226d
+
+	measure 'Card 5-3 Text comparison' = ```
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 2, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _LY = LOOKUPVALUE(DimTerm[LY_AcademicName], DimTerm[Academic Year Name], _YearName)
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			//  % Change
+			VAR _value = [Distinct Students, International Non-visa] - [Distinct Students, International Non-visa, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, International Non-visa, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, International Non-visa, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _symbol = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			"vs to LY, " & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,        _LY, // & " " & _Session,
+			        _HasSession && NOT _HasYear,    _CYNName, // & " " & _Session,
+			        NOT _HasSession && _HasYear,    _LY,
+			        _CYNName                        // default
+			    )
+			```
+		displayFolder: International Non-visa
+		lineageTag: 81b8cb5e-eada-4805-aebf-dccabc2b6eb3
+
+	measure 'Card 5-4 Reference label color value' = ```
+			
+			VAR _value = [Distinct Students, International Non-visa] - [Distinct Students, International Non-visa, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, International Non-visa, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, International Non-visa, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _pctRounded =
+			    ROUND ( _pct, 2 )
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(_pct), "Grey",
+			        _pctRounded <= -0.01, "Red",
+			        _pctRounded >= 0.01, "Green",
+			        "Grey"
+			    )
+			RETURN
+			_format 
+			```
+		displayFolder: International Non-visa
+		lineageTag: d1555ee0-4eeb-4fa3-8306-a957eea15ef2
+
+	measure 'Card 6-2 Text Number and %' = ```
+			
+			VAR _Diff = [Distinct Students, International visa] - [Distinct Students, International visa, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, International visa, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, International visa, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			// Math operator and number +105
+			VAR _operatorNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			
+			// Arrow and % change
+			VAR _arrowNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(129109) & " " & FORMAT(_pct, "0%"),
+			        _pct < -0.01, UNICHAR(129110) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			//_operatorNumber & " | " & _arrowNumber
+			//_arrowNumber & " | " & _operatorNumber
+			_arrowNumber
+			```
+		displayFolder: International Visa
+		lineageTag: 70394383-dba9-4805-9957-6563c9ed5e6a
+
+	measure 'Card 6-3 Text comparison' = ```
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 2, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _LY = LOOKUPVALUE(DimTerm[LY_AcademicName], DimTerm[Academic Year Name], _YearName)
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			//  % Change
+			VAR _value = [Distinct Students, International visa] - [Distinct Students, International visa, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, International visa, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, International visa, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _symbol = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			"vs to LY, " & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,        _LY, // & " " & _Session,
+			        _HasSession && NOT _HasYear,    _CYNName, // & " " & _Session,
+			        NOT _HasSession && _HasYear,    _LY,
+			        _CYNName                        // default
+			    )
+			```
+		displayFolder: International Visa
+		lineageTag: 5d5eb700-69dc-44bd-ad88-f4916a5d8238
+
+	measure 'Card 6-4 Reference label color value' = ```
+			
+			VAR _diff = [Distinct Students, International visa] - [Distinct Students, International visa, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _diff, [Distinct Students, International visa, LY] ) // Keep this as is
+			VAR _diffLY = [Distinct Students, International visa, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_diff)
+			
+			VAR _pctRounded =
+			    ROUND ( _pct, 2 )
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(_pct), "Grey",
+			        _pctRounded <= -0.01, "Red",
+			        _pctRounded >= 0.01, "Green",
+			        "Grey"
+			    )
+			
+			RETURN
+			_format 
+			```
+		displayFolder: International Visa
+		lineageTag: ec54e299-f1a1-4cb8-9439-1c4176ee3ac8
+
+	measure 'Labels placeholder' = 0
+		formatString: 0
+		displayFolder: Top N Chart
+		lineageTag: 46565dd6-7933-493f-a2b7-0a212043b3e3
+
+	measure 'Selected Percentage' =
+			
+			VAR _selIndex =
+			    SELECTEDVALUE ( 'Parameter Total Students'[Parameter Order], 0 )
+			VAR _selectedCount =
+			    [Selected Students Metric]
+			VAR _totalCount =
+			    [Distinct Students DaysBetween]
+			RETURN
+			IF (
+			    _selIndex = 0,
+			    BLANK(),
+			    DIVIDE ( _selectedCount, _totalCount )
+			)
+		formatString: 0%;-0%;0%
+		displayFolder: Line Chart
+		lineageTag: 25d4d379-0aa9-48ef-bd98-4cbc1a550cfc
+
+	measure 'Selected Students Metric' =
+			
+			VAR _selIndex =
+			    SELECTEDVALUE ( 'Parameter Total Students'[Parameter Order], 0 )
+			RETURN
+			SWITCH (
+			    _selIndex,
+			    0, [Distinct Students DaysBetween],
+			    1, [Distinct Students, Domestic (Non-Indigenous)],
+			    2, [Distinct Students, International Visa],
+			    3, [Distinct Students, International Non-visa],
+			    4, [Distinct Students, Indigenous],
+			    [Distinct Students DaysBetween]
+			)
+		formatString: 0
+		displayFolder: Top N Chart
+		lineageTag: 1798177c-d0f3-41a3-9051-0d6b0d12012e
+
+	measure 'Test TopN Bullet chart' =
+			
+			VAR _Programs =
+			    ALLSELECTED ( DimProgramTrack[FamilyAcademicProgramTitle] )
+			VAR _Rank =
+			    RANKX ( _Programs, [Selected Trend Metric], , DESC, DENSE )
+			RETURN
+			IF (
+			    ISINSCOPE ( DimProgramTrack[FamilyAcademicProgramTitle] ),
+			    IF ( _Rank <= 5, [Selected Trend Metric], BLANK () ),
+			    [Selected Trend Metric]
+			)
+		formatString: #,0
+		displayFolder: Top N Chart
+		lineageTag: d05127d6-7cfa-4081-83b8-368f8df31ac3
+
+	measure 'Label for Bar Chart' =
+			
+			// VAR _sel =
+			//     SELECTEDVALUE ( 'Trends by Year Parameter'[Parameter Order], 0 )
+			// VAR _metric =
+			//     SWITCH (
+			//         _sel,
+			//         0, "Total Students",
+			//         1, "Total Domestic",
+			//         2, "Domestic (Non-Indigenous)",
+			//         3, "Domestic Indigenous",
+			//         4, "Total International",
+			//         5, "International Visa",
+			//         6, "International Non-visa",
+			//         "Total Students"
+			//     )
+			// RETURN
+			    SELECTEDVALUE ( DimOrganizationalUnit[AnalyticSchoolName] )
+			        // & " | "
+			        // & _metric
+			        // & ": "
+			        // & FORMAT ( [Selected Trend Metric], "#,##0" )
+		displayFolder: Dynamic Bar Chart
+		lineageTag: c54b0223-287e-4558-bf2c-fbd978149cce
+
+	measure 'Selected Trend Metric' =
+			
+			VAR _sel =
+			    SELECTEDVALUE ( 'Parameter Total Students'[Parameter Order], 0 )
+			RETURN
+			    SWITCH (
+			        _sel,
+			        0, [Distinct Students DaysBetween],
+			        //1, [Distinct Students, Domestic],
+			        1, [Distinct Students, Domestic (Non-Indigenous)],
+			        2, [Distinct Students, Indigenous],
+			        //4, [Distinct Students, International],
+			        3, [Distinct Students, International Visa],
+			        4, [Distinct Students, International Non-visa],
+			        [Distinct Students DaysBetween]
+			    )
+		formatString: 0
+		displayFolder: Dynamic Bar Chart
+		lineageTag: 58e4b7bd-de73-49cb-b660-cf664c5f306c
+
+	measure 'Value for Bar Chart' = ```
+			
+			VAR _current = [Selected Trend Metric]
+			VAR _ly = [Selected Trend Metric LY]
+			VAR _Diff = _current - _ly
+			VAR _pct = DIVIDE ( _Diff, _ly )
+			VAR _absValue = ABS ( _Diff )
+			VAR _absPct = ABS ( _pct )
+			VAR _label = [Selected Trend Metric Label]
+			
+			VAR _operatorNumber =
+			    SWITCH (
+			        TRUE(),
+			        _Diff > 0, UNICHAR(43) & " " & FORMAT ( _absValue, "#,##0" ),
+			        _Diff < 0, UNICHAR(45) & " " & FORMAT ( _absValue, "#,##0" ),
+			        FORMAT ( _absValue, "#,##0" )
+			    )
+			
+			VAR _arrowNumber =
+			    SWITCH (
+			        TRUE(),
+			        _pct > 0, UNICHAR(129121) & " " & FORMAT ( _pct, "0%" ),
+			        _pct < 0, UNICHAR(129123) & " " & FORMAT ( _absPct, "0%" ),
+			        FORMAT ( _absPct, "0%" )
+			    )
+			
+			RETURN
+			     //_label
+			       // & ": " &
+			        FORMAT ( _current, "#,##0" )
+			        & " | "
+			        & _operatorNumber
+			        & " | "
+			        & _arrowNumber
+			
+			
+			```
+		displayFolder: Dynamic Bar Chart
+		lineageTag: 81bc9381-37ba-405b-8c2d-fdcff586d395
+
+	measure 'Selected Trend Metric LY' =
+			
+			VAR _sel =
+			    SELECTEDVALUE ( 'Parameter Total Students'[Parameter Order], 0 )
+			RETURN
+			    SWITCH (
+			        _sel,
+			        0, [Distinct Students DaysBetween, LY],
+			        1, [Distinct Students, Domestic, LY],
+			        2, [Distinct Students, Domestic (Non-Indigenous), LY],
+			        3, [Distinct Students, Indigenous, LY],
+			        4, [Distinct Students, International, LY],
+			        5, [Distinct Students, International Visa, LY],
+			        6, [Distinct Students, International Non-visa, LY],
+			        [Distinct Students DaysBetween, LY]
+			    )
+		formatString: 0
+		displayFolder: Dynamic Bar Chart
+		lineageTag: 711bc9ab-9f34-4ef0-8f1f-613c74662a10
+
+	measure 'Selected Trend Metric Label' =
+			
+			VAR _sel =
+			    SELECTEDVALUE ( 'Parameter Total Students'[Parameter Order], 0 )
+			RETURN
+			    SWITCH (
+			        _sel,
+			        0, "Total Students",
+			        1, "Total Domestic",
+			        2, "Domestic (Non-Indigenous)",
+			        3, "Domestic Indigenous",
+			        4, "Total International",
+			        5, "International Visa",
+			        6, "International Non-visa",
+			        "Total Students"
+			    )
+		displayFolder: Dynamic Bar Chart
+		lineageTag: 2420fe58-a2cf-4fc3-aeb9-406f3d580f1e
+
+	measure 'Value color for Bar chart' =
+			
+			VAR _current = [Selected Trend Metric]
+			VAR _ly = [Selected Trend Metric LY]
+			VAR _value = _current - _ly
+			VAR _pct = DIVIDE ( _value, _ly )
+			
+			RETURN
+			    SWITCH (
+			        TRUE(),
+			        ISBLANK ( _current ) || ISBLANK ( _ly ), "Grey",
+			        _value > 0, "Green",
+			        _value < 0, "Red",
+			        "Grey"
+			    )
+		displayFolder: Schools Bar Chart
+		lineageTag: 85c57a74-b0e0-4ae4-9a00-88a052e8939c
+
+	measure 'Max Value Bar' = 5000
+		formatString: 0
+		displayFolder: Schools Bar Chart
+		lineageTag: 91865087-7fb4-4a23-b76b-d068f9270743
+
+	measure 'Title Bar Chart' =
+			
+			VAR _sel =
+			    SELECTEDVALUE ( 'Parameter Total Students'[Parameter Order], 0 )
+			VAR _metric =
+			    SWITCH (
+			        _sel,
+			        0, "Total Students",
+			        //1, "Total Domestic Students",
+			        1, "Domestic Non-Indigenous Students",
+			        2, "Domestic Indigenous Students",
+			        //4, "Total International Students",
+			        3, "International Visa Students",
+			        4, "International Non-visa Students",
+			        "Total Students"
+			    )
+			RETURN
+			    UPPER ( _metric & " with Activity by Academic School" )
+		displayFolder: Schools Bar Chart
+		lineageTag: 936ae680-68f4-4026-ae73-8d4a55a60476
+
+	measure 'Title Top 5 Programs' =
+			
+			VAR _sel =
+			    SELECTEDVALUE ( 'Parameter Total Students'[Parameter Order], 0 )
+			VAR _metric =
+			    SWITCH (
+			        _sel,
+			        0, "Top 5 Programs by Total Students",
+			        1, "Top 5 Programs by Domestic Non-Indigenous Students",
+			        2, "Top 5 Programs by Domestic Indigenous Students",
+			        3, "Top 5 Programs by International Visa Students",
+			        4, "Top 5 Programs by International Non-visa Students",
+			        "Top 5 Programs by Total Students"
+			    )
+			RETURN
+			    UPPER ( _metric )
+		displayFolder: Schools Bar Chart
+		lineageTag: 26bb82cd-ef87-4eb8-9c76-ae5f7822349d
+
+	measure 'Bar chart lower bound' = 0
+		formatString: 0
+		displayFolder: Dynamic Bar Chart
+		lineageTag: ba3394e4-18ec-4046-a2a8-4033b51210df
+
+	measure 'Card Domestic Text Number and %' = ```
+			
+			VAR _Diff = [Distinct Students, Domestic] - [Distinct Students, Domestic, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Domestic, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, Domestic, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			// Math operator and number +105
+			VAR _operatorNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			
+			// Arrow and % change
+			VAR _arrowNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(129109) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(129110) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			//_operatorNumber & " | " & _arrowNumber
+			//arrowNumber & " | " & _operatorNumber
+			_arrowNumber
+			```
+		displayFolder: Domestic
+		lineageTag: fb8141ea-64ce-45b5-90cf-60d9617cc380
+
+	measure 'Card Domestic Text comparison' = ```
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 2, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _LY = LOOKUPVALUE(DimTerm[LY_AcademicName], DimTerm[Academic Year Name], _YearName)
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			//  % Change
+			VAR _value = [Distinct Students, Domestic] - [Distinct Students, Domestic, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, Domestic, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, Domestic, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _symbol = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			    )
+			
+			RETURN
+			"vs LY, " & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,        _LY & " " & _Session,
+			        _HasSession && NOT _HasYear,    _CYNName & " " & _Session,
+			        NOT _HasSession && _HasYear,    _LY,
+			        _CYNName                        // default
+			    )
+			```
+		displayFolder: Domestic
+		lineageTag: 913c19b5-c98b-48bf-b787-f9f5b01fae4a
+
+	measure 'Card Domestic Reference label color value' = ```
+			
+			VAR _value = [Distinct Students, Domestic] - [Distinct Students, Domestic, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _value, [Distinct Students, Domestic, LY] ) // Keep this as is
+			VAR _valueLY = [Distinct Students, Domestic, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_value)
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        _pct > 0, "Green",
+			        _pct < 0, "Red",
+			        "Grey"
+			    )
+			RETURN
+			_format 
+			```
+		displayFolder: Domestic
+		lineageTag: 22651bb0-1915-4c07-a8b2-3163880052b0
+
+	measure 'Label for Programs Chart' =
+			
+			// VAR _sel =
+			//     SELECTEDVALUE ( 'Trends by Year Parameter'[Parameter Order], 0 )
+			// VAR _metric =
+			//     SWITCH (
+			//         _sel,
+			//         0, "Total Students",
+			//         1, "Total Domestic",
+			//         2, "Domestic (Non-Indigenous)",
+			//         3, "Domestic Indigenous",
+			//         4, "Total International",
+			//         5, "International Visa",
+			//         6, "International Non-visa",
+			//         "Total Students"
+			//     )
+			// RETURN
+			    SELECTEDVALUE ( DimProgramTrack[FamilyAcademicProgramTitle] )
+			        // & " | "
+			        // & _metric
+			        // & ": "
+			        // & FORMAT ( [Selected Trend Metric], "#,##0" )
+		lineageTag: a19dca49-e5f4-41c4-a0f6-872efa617c19
+
+	measure 'Card 1-2 Text Diff' = ```
+			
+			VAR _Diff = [Distinct Students DaysBetween] - [Distinct Students DaysBetween, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students DaysBetween, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students DaysBetween, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			// Math operator and number +105
+			VAR _operatorNumber = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0,0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0,0"),
+			        FORMAT(_absValue, "0,0")
+			    )
+			
+			// Arrow and % change
+			VAR _arrowNumber = 
+			    SWITCH(
+			        TRUE(),
+			        // _pct > 0, UNICHAR(11165) & " " & FORMAT(_pct, "0%"),
+			        // _pct < 0, UNICHAR(11167) & " " & FORMAT(_absPct, "0%"),
+			        _pct > 0, UNICHAR(129109) & " " & FORMAT(_pct, "0%"),
+			        _pct < 0, UNICHAR(129110) & " " & FORMAT(_absPct, "0%"),
+			        FORMAT(_pct, "0%")
+			        
+			)
+			    
+			
+			RETURN
+			// _operatorNumber & " | " & _arrowNumber
+			//_arrowNumber & " | " & _operatorNumber
+			// _arrowNumber 
+			_operatorNumber
+			```
+		displayFolder: Annual
+		lineageTag: 04726872-a39f-40c5-83c4-5058113f14a5
+
+	measure 'Students label' = " students |"
+		lineageTag: bf981817-6b01-478d-9360-04fd8d7f3079
+
+	measure 'Max Axis AllStudents' =
+			
+			1.6 *
+			MAXX(
+			    ALLSELECTED(DimTerm[Academic Year Name]),
+			    CALCULATE([Distinct Students DaysBetween])
+			)
+		lineageTag: 7193c9ba-e0d6-4a1d-84db-e24b7eef2f58
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Text Cards / Line & Bar Chart' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

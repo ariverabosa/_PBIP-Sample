@@ -1,0 +1,389 @@
+table DimProgramTrack
+	lineageTag: d4019042-3c84-4379-b1c1-0039c5c91d76
+
+	column DimProgramTrackKey
+		dataType: int64
+		formatString: 0
+		lineageTag: e725efae-49ed-4801-94d2-6234ef4ad442
+		summarizeBy: none
+		sourceColumn: DimProgramTrackKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValidFrom
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2e40ee8e-b94d-4302-a092-4a38b4f3ced6
+		summarizeBy: none
+		sourceColumn: ValidFrom
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValidTo
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6ad446cb-ba14-4b9e-99ad-a992938b451b
+		summarizeBy: none
+		sourceColumn: ValidTo
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrentFlag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 8f985ab4-70b5-4133-9dee-293954b888fb
+		summarizeBy: none
+		sourceColumn: CurrentFlag
+
+		annotation SummarizationSetBy = Automatic
+
+	column DimAuditKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 8418e534-2634-40d2-877f-5494750adb6c
+		summarizeBy: none
+		sourceColumn: DimAuditKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column acad_programs_pk
+		dataType: int64
+		formatString: 0
+		lineageTag: bd487178-5cb8-45c4-916d-f051ad309369
+		summarizeBy: none
+		sourceColumn: acad_programs_pk
+
+		annotation SummarizationSetBy = Automatic
+
+	column Program
+		dataType: string
+		lineageTag: 6ee0505e-8cbb-4e7c-9259-d0dd61f08529
+		summarizeBy: none
+		sourceColumn: Program
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProgramTitle
+		dataType: string
+		lineageTag: fa336487-c578-4ab1-8a46-1357c2624f49
+		summarizeBy: none
+		sourceColumn: ProgramTitle
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProgramStatus
+		dataType: string
+		lineageTag: 8d8c970f-1192-4540-a337-818bbe252086
+		summarizeBy: none
+		sourceColumn: ProgramStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProgramAcademicLevel
+		dataType: string
+		lineageTag: 43487b5b-9eb3-4d3c-be12-7d82af4bc848
+		summarizeBy: none
+		sourceColumn: ProgramAcademicLevel
+
+		annotation SummarizationSetBy = Automatic
+
+	column CompletionMonths
+		dataType: int64
+		formatString: 0
+		lineageTag: abe3a27f-66f0-40b0-82b9-0646323113ef
+		summarizeBy: none
+		sourceColumn: CompletionMonths
+
+		annotation SummarizationSetBy = Automatic
+
+	column RequiredCredits
+		dataType: double
+		lineageTag: eeb05f2d-358b-4d22-80d6-9e4095c79975
+		summarizeBy: none
+		sourceColumn: RequiredCredits
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column AdmitCapacity
+		dataType: int64
+		formatString: 0
+		lineageTag: e82aa690-0284-46c6-bef8-ec95d93274f0
+		summarizeBy: none
+		sourceColumn: AdmitCapacity
+
+		annotation SummarizationSetBy = Automatic
+
+	column isGraduationEligible
+		dataType: string
+		lineageTag: 3bb8a7b3-8775-41f3-81a8-c3b5e29b5c71
+		summarizeBy: none
+		sourceColumn: isGraduationEligible
+
+		annotation SummarizationSetBy = Automatic
+
+	column isCourseBasedRegistration
+		dataType: string
+		lineageTag: edb0045e-b786-4893-b47b-6d65d0aab3fb
+		summarizeBy: none
+		sourceColumn: isCourseBasedRegistration
+
+		annotation SummarizationSetBy = Automatic
+
+	column isApprentice
+		dataType: string
+		lineageTag: 7450a088-b3ed-4605-bbfc-5ada1d228f04
+		summarizeBy: none
+		sourceColumn: isApprentice
+
+		annotation SummarizationSetBy = Automatic
+
+	column isAboriginalProgram
+		dataType: string
+		lineageTag: 3ab3eb3b-dfc5-4438-a5dc-40bc464115ef
+		summarizeBy: none
+		sourceColumn: isAboriginalProgram
+
+		annotation SummarizationSetBy = Automatic
+
+	column isAcademicPreparation
+		dataType: string
+		lineageTag: 66016084-4bce-4fd0-990f-d5bec58d4b67
+		summarizeBy: none
+		sourceColumn: isAcademicPreparation
+
+		annotation SummarizationSetBy = Automatic
+
+	column isBusiness
+		dataType: string
+		lineageTag: 384d29d8-0746-4a46-a99e-7ff8c9227262
+		summarizeBy: none
+		sourceColumn: isBusiness
+
+		annotation SummarizationSetBy = Automatic
+
+	column isCommunityService
+		dataType: string
+		lineageTag: 71b64990-a872-4d59-ae2c-571ba2db9519
+		summarizeBy: none
+		sourceColumn: isCommunityService
+
+		annotation SummarizationSetBy = Automatic
+
+	column isCreativeArts
+		dataType: string
+		lineageTag: fe0e6467-0c08-43b6-b868-62cc01fd83cf
+		summarizeBy: none
+		sourceColumn: isCreativeArts
+
+		annotation SummarizationSetBy = Automatic
+
+	column isInformationTechnology
+		dataType: string
+		lineageTag: 63d22bbb-e272-4e9c-ba99-a88ec3c887cf
+		summarizeBy: none
+		sourceColumn: isInformationTechnology
+
+		annotation SummarizationSetBy = Automatic
+
+	column isContinuingEducation
+		dataType: string
+		lineageTag: 339a7bd9-f7b9-4ad4-87e1-60199e7d2338
+		summarizeBy: none
+		sourceColumn: isContinuingEducation
+
+		annotation SummarizationSetBy = Automatic
+
+	column isEngineeringandCADTechnology
+		dataType: string
+		lineageTag: 8b7a5ec2-daa6-4cda-a8c1-06c6fd439150
+		summarizeBy: none
+		sourceColumn: isEngineeringandCADTechnology
+
+		annotation SummarizationSetBy = Automatic
+
+	column isHealthandAppliedScience
+		dataType: string
+		lineageTag: dda231f6-2e89-4c57-8554-ef85c3bb2f0b
+		summarizeBy: none
+		sourceColumn: isHealthandAppliedScience
+
+		annotation SummarizationSetBy = Automatic
+
+	column isHospitality
+		dataType: string
+		lineageTag: 3c61531e-69de-4d76-bc09-612bd70091e4
+		summarizeBy: none
+		sourceColumn: isHospitality
+
+		annotation SummarizationSetBy = Automatic
+
+	column isLanguages
+		dataType: string
+		lineageTag: 40767966-b0ef-45a3-8e6a-c81d6402f35b
+		summarizeBy: none
+		sourceColumn: isLanguages
+
+		annotation SummarizationSetBy = Automatic
+
+	column isTeacherEducation
+		dataType: string
+		lineageTag: 5d11be90-f7e7-40f9-afd8-e7a50c807f8b
+		summarizeBy: none
+		sourceColumn: isTeacherEducation
+
+		annotation SummarizationSetBy = Automatic
+
+	column isTradesandTechnology
+		dataType: string
+		lineageTag: 2d9626ca-6ad7-457f-a201-0744b327ba8d
+		summarizeBy: none
+		sourceColumn: isTradesandTechnology
+
+		annotation SummarizationSetBy = Automatic
+
+	column isTransportationTechnoloy
+		dataType: string
+		lineageTag: ea2d3a24-0081-48dc-9325-7628ed45b785
+		summarizeBy: none
+		sourceColumn: isTransportationTechnoloy
+
+		annotation SummarizationSetBy = Automatic
+
+	column isDegreeCredential
+		dataType: string
+		lineageTag: 9a3525dd-c013-4ebe-8270-68ab723b4c02
+		summarizeBy: none
+		sourceColumn: isDegreeCredential
+
+		annotation SummarizationSetBy = Automatic
+
+	column isFunded
+		dataType: string
+		lineageTag: 2672d315-f93e-4dbe-95cf-e211f37dc891
+		summarizeBy: none
+		sourceColumn: isFunded
+
+		annotation SummarizationSetBy = Automatic
+
+	column BudgetCenter
+		dataType: int64
+		formatString: 0
+		lineageTag: 9077d93d-a572-45f5-b640-a033e674cce5
+		summarizeBy: none
+		sourceColumn: BudgetCenter
+
+		annotation SummarizationSetBy = Automatic
+
+	column WorkIntegratedLearning
+		dataType: string
+		lineageTag: a7b089bc-c7cf-44b7-a0f3-fc3f928e367c
+		summarizeBy: none
+		sourceColumn: WorkIntegratedLearning
+
+		annotation SummarizationSetBy = Automatic
+
+	column CIP
+		dataType: string
+		lineageTag: 51623773-cb97-468e-9833-fe3800764a1d
+		summarizeBy: none
+		sourceColumn: CIP
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReportGroup
+		dataType: string
+		lineageTag: 759e7c15-0cca-4fe9-8fb0-870cc3f72e73
+		summarizeBy: none
+		sourceColumn: ReportGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column Credential
+		dataType: string
+		lineageTag: eb3a9dde-ac23-49fb-af7b-e7019c4b9506
+		summarizeBy: none
+		sourceColumn: Credential
+
+		annotation SummarizationSetBy = Automatic
+
+	column FamilyAcademicProgram
+		dataType: string
+		lineageTag: 228f619b-3a39-4459-aef5-7c84335c7d7b
+		summarizeBy: none
+		sourceColumn: FamilyAcademicProgram
+
+		annotation SummarizationSetBy = Automatic
+
+	column FamilyAcademicProgramTitle
+		dataType: string
+		lineageTag: ad1cd89a-6bb3-41e7-b669-b76d0e758c4c
+		summarizeBy: none
+		sourceColumn: FamilyAcademicProgramTitle
+
+		annotation SummarizationSetBy = Automatic
+
+	column FamlyType
+		dataType: string
+		lineageTag: 047dad1c-38c1-4f0c-bdf2-d0a016c647a2
+		summarizeBy: none
+		sourceColumn: FamlyType
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProgramType
+		dataType: string
+		lineageTag: 481493c8-52c7-4368-b29e-8502c0b389a7
+		summarizeBy: none
+		sourceColumn: ProgramType
+
+		annotation SummarizationSetBy = Automatic
+
+	column RequirementAcademicProgram
+		dataType: string
+		lineageTag: 96e3f5d3-adf1-4e61-b98f-b48760b17620
+		summarizeBy: none
+		sourceColumn: RequirementAcademicProgram
+
+		annotation SummarizationSetBy = Automatic
+
+	column RequirementAcademicProgramTitle
+		dataType: string
+		lineageTag: e0c7f02a-b5f5-400e-9cad-0e96685a4f2c
+		summarizeBy: none
+		sourceColumn: RequirementAcademicProgramTitle
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimProgramTrack = m
+		mode: import
+		queryGroup: Dimensions
+		source = ```
+				let
+				    Source = Sql.Database(Server, DataBase), 
+				    Query=
+				    "
+				    SELECT 
+				        /*
+				    CASE 
+				        WHEN pt.ReportGroup IS NULL 
+				        THEN 'Other' 
+				        ELSE pt.ReportGroup 
+				     END AS New_ReportGroup,
+				    */ 
+				        pt.* 
+				    FROM DimProgramTrack pt
+				    WHERE CurrentFlag <> 0;
+				    ",
+				    Result = Value.NativeQuery(Source, Query),
+				    #"Check No Rows" = Table.RowCount( Result),
+				    #"SQL Result" = Result
+				in
+				    #"SQL Result"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

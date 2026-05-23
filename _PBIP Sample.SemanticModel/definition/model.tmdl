@@ -1,0 +1,47 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup Dimensions
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup Parameters
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["Server","DataBase","FactPrograms","DimTerm","DimDate","DimStudent","Last Update","DimOrganizationalUnit","DimProgramTrack","FactCourses","Core measures","Core Time Intelligence","Text Cards / Line & Bar Chart","Support Measures","Demographic Measures","Demographic Text Cards","School - Division | Text Cards","Demogphic Composition | Text Cards","Type2 changes"]
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
+
+annotation __TEdtr = 1
+
+ref table FactPrograms
+ref table DimTerm
+ref table DimDate
+ref table DimStudent
+ref table 'Last Update'
+ref table DimProgramTrack
+ref table DimOrganizationalUnit
+ref table 'Core measures'
+ref table 'Core Time Intelligence'
+ref table 'Text Cards / Line & Bar Chart'
+ref table 'Support Measures'
+ref table 'Demographic Measures'
+ref table 'School - Division | Text Cards'
+ref table 'Demogphic Composition | Text Cards'
+ref table 'TopN Selection'
+ref table 'Pseudo Citizen table'
+ref table 'Type2 changes'
+ref table 'Parameter Total Students'
+ref table Doc_Measures
+ref table 'Student Type Selector'
+
+ref cultureInfo en-US
+

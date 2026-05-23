@@ -1,0 +1,154 @@
+table 'Type2 changes'
+	lineageTag: db3e5ff9-a406-47f9-8eb7-937808af70c4
+
+	column person_id
+		dataType: string
+		lineageTag: ab078da6-a668-47e1-97e9-b6819f2f1350
+		summarizeBy: none
+		sourceColumn: person_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column DimStudentKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 8750babb-9340-4b15-bd9c-4e137b464947
+		summarizeBy: count
+		sourceColumn: DimStudentKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValidFrom
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 0290fbd8-c06b-4d7e-9156-7bb4c7bd6932
+		summarizeBy: none
+		sourceColumn: ValidFrom
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValidTo
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 59c79a3f-cb90-4eaa-ba73-9380476f4b6f
+		summarizeBy: none
+		sourceColumn: ValidTo
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrentFlag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f0b62765-3c4a-40ec-9064-aa12444e2cef
+		summarizeBy: none
+		sourceColumn: CurrentFlag
+
+		annotation SummarizationSetBy = Automatic
+
+	column person_pk
+		dataType: int64
+		formatString: 0
+		lineageTag: 0e09d3d5-2a2c-4934-83d5-b96efe5ed8fb
+		summarizeBy: sum
+		sourceColumn: person_pk
+
+		annotation SummarizationSetBy = Automatic
+
+	column isIndigenous
+		dataType: string
+		lineageTag: 17a3c4dd-d6f4-418b-af1d-9a69ab654790
+		summarizeBy: none
+		sourceColumn: isIndigenous
+
+		annotation SummarizationSetBy = Automatic
+
+	column isIndigenousStatus
+		dataType: string
+		lineageTag: 23c66ad4-5fa2-4ede-93c0-2dd421a0fa15
+		summarizeBy: none
+		sourceColumn: isIndigenousStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column isIndigenousNonStatus
+		dataType: string
+		lineageTag: fe0cc6bb-ae47-45d1-a581-6d35d81442e7
+		summarizeBy: none
+		sourceColumn: isIndigenousNonStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column isMetis
+		dataType: string
+		lineageTag: e710fb20-2dd1-4968-966d-d82c3fc36a83
+		summarizeBy: none
+		sourceColumn: isMetis
+
+		annotation SummarizationSetBy = Automatic
+
+	column isInuit
+		dataType: string
+		lineageTag: 481948fc-8f37-4be2-be39-6880fdce0ef6
+		summarizeBy: none
+		sourceColumn: isInuit
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Type2 changes' = m
+		mode: import
+		queryGroup: Dimensions
+		source = ```
+				let
+				    Source = Sql.Database(Server, DataBase), 
+				    Query=
+				    "
+				        WITH Temp AS (
+				            SELECT 
+				                edw.person_id,
+				                ds.* 
+				            FROM DimStudent ds
+				            JOIN edw.dbo.PERSON_EDWT edw
+				                ON edw.person_pk = ds.person_pk
+				            --WHERE ds.CurrentFlag = 1
+				        ),
+				        TempA AS (
+				            SELECT
+				            -- Replace isInternational values
+				                CASE
+				                    WHEN ta.isInternational = 'No' THEN 'Domestic' 
+				                    WHEN ta.isInternational = 'Yes' THEN 'International'
+				                    ELSE ta.isInternational
+				                END AS New_isInternational,
+				
+				                -- Replace Gender values
+				                CASE
+				                    WHEN ta.Gender = 'Unspecified' THEN 'Undeclared' 
+				                    ELSE ta.Gender
+				                END AS New_Gender,
+				                -- Add Gender Order
+				                CASE
+				                    WHEN ta.Gender = 'Female' THEN 1
+				                    WHEN ta.Gender = 'Male' THEN 2
+				                    WHEN ta.Gender = 'Gender Diverse' THEN 3
+				                    ELSE 4
+				                END AS Gender_Order,
+				                        ta.*
+				            FROM Temp ta
+				                
+				        )
+				        SELECT 
+				        *
+				        FROM TempA;
+				    ",
+				    Result = Value.NativeQuery(Source, Query),
+				    #"Check No Rows" = Table.RowCount( Result),
+				    #"SQL Result" = Result,
+				    #"Removed Other Columns" = Table.SelectColumns(#"SQL Result",{"person_id", "DimStudentKey", "ValidFrom", "ValidTo", "CurrentFlag", "person_pk", "isIndigenous", "isIndigenousStatus", "isIndigenousNonStatus", "isMetis", "isInuit"})
+				in
+				    #"Removed Other Columns"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

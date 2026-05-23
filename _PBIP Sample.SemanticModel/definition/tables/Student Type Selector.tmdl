@@ -1,0 +1,38 @@
+table 'Student Type Selector'
+	lineageTag: 78db4e4f-1a40-4d4a-b7ef-0cef369fb10e
+
+	column 'Student Type'
+		lineageTag: e50eadc7-b584-4f59-9ca3-2a3b6040138a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Student Type]
+		sortByColumn: 'Sort Order'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sort Order'
+		formatString: 0
+		lineageTag: e05add77-c579-4106-9a90-f5d6692cfba8
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Sort Order]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Student Type Selector' = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Student Type", STRING,
+				    "Sort Order", INTEGER,
+				    {
+				        { "Domestic Non-Indigenous", 0 },
+				        { "Domestic Indigenous", 1 },
+				        { "International Visa", 2 },
+				        { "International Non-visa", 3 }
+				    }
+				)
+
+	annotation PBI_Id = dc31df9552ad423db091c1cbba472e00
+

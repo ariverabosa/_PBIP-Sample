@@ -1,0 +1,366 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 3447.3696262984931,
+        "y": 365.54356334316634
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 449.51442003227066,
+            "y": 377.33557835013596
+          },
+          "nodeIndex": "FactPrograms",
+          "nodeLineageTag": "d161ca3d-845d-44ad-a8a2-fd9db63ef081",
+          "size": {
+            "height": 525.00671301265209,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 657.4387934889819,
+            "y": 0
+          },
+          "nodeIndex": "DimTerm",
+          "nodeLineageTag": "feadaede-b0c9-4340-b723-d934cf1f0458",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1973.9645900799696,
+            "y": 0
+          },
+          "nodeIndex": "DimDate",
+          "nodeLineageTag": "914c8963-1212-4611-85ce-41c1ab478667",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 21
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "DimStudent",
+          "nodeLineageTag": "7f33f3de-1c51-4e03-bb32-dec2c0ba3eb1",
+          "size": {
+            "height": 1000,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 1640.737900777229,
+            "y": 0
+          },
+          "nodeIndex": "Last Update",
+          "nodeLineageTag": "682e671a-b1b1-402a-b614-376aae225091",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 958.76384004689771,
+            "y": 0
+          },
+          "nodeIndex": "DimProgramTrack",
+          "nodeLineageTag": "d4019042-3c84-4379-b1c1-0039c5c91d76",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 1281.3713281630203,
+            "y": 0
+          },
+          "nodeIndex": "DimOrganizationalUnit",
+          "nodeLineageTag": "5323a821-4563-48cb-a941-1fd610a8cee9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 3628.7379007772288,
+            "y": 366.29511199406556
+          },
+          "nodeIndex": "Core measures",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 3912.7379007772288,
+            "y": 366.29511199406556
+          },
+          "nodeIndex": "Core Time Intelligence",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 4480.7379007772288,
+            "y": 366.29511199406556
+          },
+          "nodeIndex": "Support Measures",
+          "nodeLineageTag": "f0c19484-d348-48d4-b809-2889e176cfee",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 5048.7379007772288,
+            "y": 286.667789175068
+          },
+          "nodeIndex": "Demographic Measures",
+          "nodeLineageTag": "c6576e10-6c0a-42d1-bca5-6d6aeec1dc41",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 5332.7379007772288,
+            "y": 286.667789175068
+          },
+          "nodeIndex": "School - Division | Text Cards",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 16
+        },
+        {
+          "location": {
+            "x": 5616.7379007772288,
+            "y": 286.667789175068
+          },
+          "nodeIndex": "Demogphic Composition | Text Cards",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 17
+        },
+        {
+          "location": {
+            "x": 5900.7379007772288,
+            "y": 238.66778917506798
+          },
+          "nodeIndex": "TopN Selection",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 18
+        },
+        {
+          "location": {
+            "x": 340.88174941233819,
+            "y": 0
+          },
+          "nodeIndex": "Pseudo Citizen table",
+          "nodeLineageTag": "3ecbae49-6409-46ba-a153-4d42c10bcb97",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 19
+        },
+        {
+          "location": {
+            "x": 1544.9034505870156,
+            "y": 747.41113071245013
+          },
+          "nodeIndex": "Type2 changes",
+          "nodeLineageTag": "db3e5ff9-a406-47f9-8eb7-937808af70c4",
+          "size": {
+            "height": 431.0905147138152,
+            "width": 234
+          },
+          "zIndex": 20
+        },
+        {
+          "location": {
+            "x": 6752.7379007772288,
+            "y": 351.171145681394
+          },
+          "nodeIndex": "Doc_Measures",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 4196.7379007772288,
+            "y": 366.29511199406556
+          },
+          "nodeIndex": "Text Cards / Line & Bar Chart",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 6184.7379007772288,
+            "y": 375.171145681394
+          },
+          "nodeIndex": "Parameter Total Students",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 7320.7379007772288,
+            "y": 489.25082271313272
+          },
+          "nodeIndex": "Student Type Selector",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 89.132516324369931,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "DimDate",
+          "nodeLineageTag": "914c8963-1212-4611-85ce-41c1ab478667",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 301.20000076293945,
+            "y": 0
+          },
+          "nodeIndex": "DimStudent",
+          "nodeLineageTag": "7f33f3de-1c51-4e03-bb32-dec2c0ba3eb1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 617.20000076293945,
+            "y": 0
+          },
+          "nodeIndex": "DimTerm",
+          "nodeLineageTag": "feadaede-b0c9-4340-b723-d934cf1f0458",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 360.75000095367432,
+            "y": 467.5
+          },
+          "nodeIndex": "FactPrograms",
+          "nodeLineageTag": "d161ca3d-845d-44ad-a8a2-fd9db63ef081",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 973.25000095367454,
+            "y": 0
+          },
+          "nodeIndex": "DimProgramTrack",
+          "nodeLineageTag": "36e158d8-92e4-41af-ba5c-ea15720a4850",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1310.0000012715657,
+            "y": 0
+          },
+          "nodeIndex": "DimOrganizationalUnit",
+          "nodeLineageTag": "5323a821-4563-48cb-a941-1fd610a8cee9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Programs",
+      "zoomValue": 59.999999999999986,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

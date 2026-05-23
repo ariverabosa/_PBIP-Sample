@@ -1,0 +1,306 @@
+table 'Core Time Intelligence'
+	lineageTag: 52dc2487-13a2-4557-bbc6-75b7da334b3e
+
+	measure 'Distinct Students DaysBetween, LY' =
+			
+			VAR _CY_AYName =
+			    SELECTEDVALUE ( DimTerm[Academic Year Name] )
+			VAR _LY_AYName =
+			    LOOKUPVALUE (
+			        DimTerm[LY_AcademicName],
+			        DimTerm[Academic Year Name], _CY_AYName
+			    )
+			RETURN
+			CALCULATE (
+			    [Distinct Students DaysBetween],
+			    REMOVEFILTERS ( DimTerm[Academic Year Name] ),
+			    TREATAS ( { _LY_AYName }, DimTerm[Academic Year Name] )
+			)
+		formatString: #,0
+		lineageTag: ee344b6c-3d8a-419a-927e-73a31715d1e1
+
+	measure 'Number Change Distinct Count Students' = ```
+			
+			VAR _Diff = [Distinct Students DaysBetween] - [Distinct Students DaysBetween, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students DaysBetween, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students DaysBetween, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			RETURN
+			_Diff
+			```
+		formatString: #,0
+		lineageTag: 98dd9287-2c4b-4d59-a40c-48f691cb8022
+
+	measure 'Percent Change Distinct Count Students' =
+			
+			VAR _value = [Distinct Students DaysBetween]-[Distinct Students DaysBetween, LY]
+			VAR _divide = DIVIDE(_value, [Distinct Students DaysBetween, LY])
+			RETURN
+			_divide
+		formatString: 0%;-0%;0%
+		lineageTag: ec7d3ab7-4004-4f26-83ce-fb36b69b6d35
+
+	measure 'Program Contribution Within Division %' = ```
+			
+			VAR _Division =
+			    VALUES(DimOrganizationalUnit[AnalyticDivisionName])
+			
+			VAR _DivisionNetChange =
+			    CALCULATE(
+			        [Number Change Distinct Count Students],
+			        REMOVEFILTERS(DimProgramTrack[FamilyAcademicProgramTitle]),
+			        KEEPFILTERS(_Division)
+			    )
+			
+			VAR _Denominator =
+			    ABS(_DivisionNetChange)
+			
+			RETURN
+			IF(
+			    ISINSCOPE(DimProgramTrack[FamilyAcademicProgramTitle]),
+			    DIVIDE([Number Change Distinct Count Students], _Denominator),
+			    BLANK()
+			)
+			
+			
+			```
+		formatString: 0%;-0%;0%
+		lineageTag: 052f5743-543a-4cf6-b716-2bd9bc79b75d
+
+	measure 'Division Contribution %' = ```
+			
+			VAR _DivNetChange =
+			    CALCULATE(
+			        [Number Change Distinct Count Students],
+			        REMOVEFILTERS(DimProgramTrack[FamilyAcademicProgramTitle])
+			    )
+			
+			VAR _TotalNetChange_AllDivisions =
+			    CALCULATE(
+			        [Number Change Distinct Count Students],
+			        REMOVEFILTERS(DimOrganizationalUnit[AnalyticDivisionName])
+			    )
+			
+			VAR _Denominator =
+			    ABS(_TotalNetChange_AllDivisions)
+			
+			RETURN
+			IF(
+			    ISINSCOPE(DimOrganizationalUnit[AnalyticDivisionName])
+			        && NOT ISINSCOPE(DimProgramTrack[FamilyAcademicProgramTitle]),
+			    DIVIDE(_DivNetChange, _Denominator),
+			    BLANK()
+			)
+			
+			```
+		formatString: 0%;-0%;0%
+		lineageTag: a2a2e106-da30-450e-8525-ace1619b8804
+
+	measure 'Number Change Distinct Count Domestic Students' = ```
+			
+			VAR _Diff = [Distinct Students, Domestic] - [Distinct Students, Domestic, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Domestic, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, Domestic, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			RETURN
+			_Diff
+			```
+		formatString: #,0
+		lineageTag: 7823f7cb-b727-42e2-9c4b-7d70b92499ad
+
+	measure 'Percent Change Distinct Count Domestic Students' =
+			
+			VAR _value = [Distinct Students, Domestic]-[Distinct Students, Domestic, LY]
+			VAR _divide = DIVIDE(_value, [Distinct Students, Domestic, LY])
+			RETURN
+			_divide
+		formatString: 0%;-0%;0%
+		lineageTag: 35fe8e86-33fa-4f00-8feb-bcb189550f41
+
+	measure 'Number Change Distinct Count International Students' = ```
+			
+			VAR _Diff = [Distinct Students, International] - [Distinct Students, International, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, International, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, International, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			RETURN
+			_Diff
+			```
+		formatString: 0
+		lineageTag: 12ba8b38-7fe4-40c6-9eef-5c79056ad0b0
+
+	measure 'Percent Change Distinct Count International Students' =
+			
+			VAR _value = [Distinct Students, International]-[Distinct Students, International, LY]
+			VAR _divide = DIVIDE(_value, [Distinct Students, International, LY])
+			RETURN
+			_divide
+		formatString: 0%;-0%;0%
+		lineageTag: 39812a45-66b6-462c-a59d-13ae71423e69
+
+	measure 'Number Change Distinct Count Indigenous Students' = ```
+			
+			VAR _Diff = [Distinct Students, Indigenous] - [Distinct Students, Indigenous, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Indigenous, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, Indigenous, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			RETURN
+			_Diff
+			```
+		formatString: #,0
+		lineageTag: 1ef464c4-9c0e-4638-8ddb-7806785e3d32
+
+	measure 'Number Change Distinct Count International Visa' = ```
+			
+			VAR _Diff = [Distinct Students, International Visa] - [Distinct Students, International Visa, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, International Visa, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, International Visa, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			RETURN
+			_Diff
+			```
+		formatString: #,0
+		lineageTag: 84177951-ef8a-4d85-af53-144d9d5d39cd
+
+	measure 'Percent Change Distinct Count International Visa' =
+			
+			VAR _value = [Distinct Students, International Visa]-[Distinct Students, International Visa, LY]
+			VAR _divide = DIVIDE(_value, [Distinct Students, International Visa, LY])
+			RETURN
+			_divide
+		formatString: 0%;-0%;0%
+		lineageTag: bb637a20-4297-41f0-b351-8110a71de489
+
+	measure 'Number Change Distinct Count International Non-visa' = ```
+			
+			VAR _Diff = [Distinct Students, International Non-visa] - [Distinct Students, International Non-visa, LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, International Non-visa, LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, International Non-visa, LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			RETURN
+			_Diff
+			```
+		formatString: 0
+		lineageTag: a2fbc650-bf2b-44a5-8208-f9440062d352
+
+	measure 'Percent Change Distinct Count International Non-Visa' =
+			
+			VAR _value = [Distinct Students, International Non-Visa]-[Distinct Students, International Non-Visa, LY]
+			VAR _divide = DIVIDE(_value, [Distinct Students, International Non-Visa, LY])
+			RETURN
+			_divide
+		formatString: 0%;-0%;0%
+		lineageTag: 19c4eba9-27d4-45e0-913c-9efea08afb36
+
+	measure 'Number Change Distinct Count Domestic Non-Indigenous' = ```
+			
+			VAR _Diff = [Distinct Students, Domestic (Non-Indigenous)] - [Distinct Students, Domestic (Non-Indigenous), LY]  // Keep this as is
+			VAR _pct = DIVIDE ( _Diff, [Distinct Students, Domestic (Non-Indigenous), LY] ) // Keep this as is
+			VAR _ValueLY = [Distinct Students, Domestic (Non-Indigenous), LY]
+			
+			VAR _absPct = ABS(_pct)
+			VAR _absValue = ABS(_Diff)
+			
+			VAR _format = 
+			    SWITCH(
+			        TRUE(),
+			        _Diff  > 0, UNICHAR(43) & " " & FORMAT(_absValue, "0"),
+			        _Diff  < 0, UNICHAR(45) & " " & FORMAT(_absValue, "0"),
+			        FORMAT(_absValue, "0")
+			    )
+			RETURN
+			_Diff
+			```
+		formatString: #,0
+		lineageTag: d7c2fe20-62e3-4ca1-8133-b97a7635af24
+
+	measure 'Percent Change Distinct Count Domestic Non-Indigenous' =
+			
+			VAR _value = [Distinct Students, Domestic (Non-Indigenous)]-[Distinct Students, Domestic (Non-Indigenous), LY]
+			VAR _divide = DIVIDE(_value, [Distinct Students, Domestic (Non-Indigenous), LY])
+			RETURN
+			_divide
+		formatString: 0%;-0%;0%
+		lineageTag: fd3fb69e-5e24-41f4-a38d-3f6105c2bc12
+
+	measure 'Percent Change Distinct Count Indigenous' =
+			
+			VAR _value = [Distinct Students, Indigenous]-[Distinct Students, Indigenous, LY]
+			VAR _divide = DIVIDE(_value, [Distinct Students, Indigenous, LY])
+			RETURN
+			_divide
+		formatString: 0%;-0%;0%
+		lineageTag: 536dd14e-8b29-42e6-87df-040c7d75a537
+
+	partition 'Core Time Intelligence' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

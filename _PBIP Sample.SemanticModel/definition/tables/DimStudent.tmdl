@@ -1,0 +1,334 @@
+table DimStudent
+	lineageTag: 7f33f3de-1c51-4e03-bb32-dec2c0ba3eb1
+
+	column New_isInternational
+		dataType: string
+		lineageTag: fc0ae4e6-ae4d-4a72-94dd-37df48538e69
+		summarizeBy: none
+		sourceColumn: New_isInternational
+
+		annotation SummarizationSetBy = Automatic
+
+	column New_Gender
+		dataType: string
+		lineageTag: ae727ad7-319c-4340-abe5-c0b2ebaf74a2
+		summarizeBy: none
+		sourceColumn: New_Gender
+		sortByColumn: Gender_Order
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender_Order
+		dataType: int64
+		formatString: 0
+		lineageTag: 3d098102-ceb1-4cfe-9666-26ba1a53deb5
+		summarizeBy: sum
+		sourceColumn: Gender_Order
+
+		annotation SummarizationSetBy = Automatic
+
+	column person_id
+		dataType: string
+		lineageTag: f4c9064f-8a19-45da-a79b-28de5c8cf3fa
+		summarizeBy: none
+		sourceColumn: person_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column DimStudentKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 2416ae03-4761-44aa-9c92-2239676189b7
+		summarizeBy: count
+		sourceColumn: DimStudentKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Birthday
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c72e3480-9738-4817-938d-92c9990031b8
+		summarizeBy: none
+		sourceColumn: Birthday
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EntryAge
+		dataType: int64
+		formatString: 0
+		lineageTag: 80407939-a369-472a-8b7f-2cec06a2a541
+		summarizeBy: sum
+		sourceColumn: EntryAge
+
+		annotation SummarizationSetBy = Automatic
+
+	column EntryAgeGroup
+		dataType: string
+		lineageTag: d1d0fcd7-06da-4f36-b8fd-500eb92cf88a
+		summarizeBy: none
+		sourceColumn: EntryAgeGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column isIndigenous
+		dataType: string
+		lineageTag: b2a14eb1-d421-4c49-935b-74ddd17a9a30
+		summarizeBy: none
+		sourceColumn: isIndigenous
+
+		annotation SummarizationSetBy = Automatic
+
+	column isIndigenousStatus
+		dataType: string
+		lineageTag: 811b9650-b689-4b67-9586-5a66367d21b5
+		summarizeBy: none
+		sourceColumn: isIndigenousStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column isIndigenousNonStatus
+		dataType: string
+		lineageTag: e94acff8-c13e-446f-ab6b-33b120c62a07
+		summarizeBy: none
+		sourceColumn: isIndigenousNonStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column isMetis
+		dataType: string
+		lineageTag: b957c914-0144-4e86-9780-d282c9b51c07
+		summarizeBy: none
+		sourceColumn: isMetis
+
+		annotation SummarizationSetBy = Automatic
+
+	column isInuit
+		dataType: string
+		lineageTag: 25371150-d538-44c1-80de-6864467cb5bd
+		summarizeBy: none
+		sourceColumn: isInuit
+
+		annotation SummarizationSetBy = Automatic
+
+	column isNewCanadian
+		dataType: string
+		lineageTag: 5eb7fb04-613e-450b-929a-4e06a34c2560
+		summarizeBy: none
+		sourceColumn: isNewCanadian
+
+		annotation SummarizationSetBy = Automatic
+
+	column HomeCountry
+		dataType: string
+		lineageTag: b30363fc-3214-41e7-9c08-8bbca38f0436
+		summarizeBy: none
+		sourceColumn: HomeCountry
+
+		annotation SummarizationSetBy = Automatic
+
+	column Citizenship
+		dataType: string
+		lineageTag: fa2bf707-2e14-4dbc-bea4-79755dff43d2
+		summarizeBy: none
+		sourceColumn: Citizenship
+
+		annotation SummarizationSetBy = Automatic
+
+	column HasDisability
+		dataType: string
+		lineageTag: 5a55ad05-755a-4199-ad31-a8f97bf90f2f
+		summarizeBy: none
+		sourceColumn: HasDisability
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsRacialized
+		dataType: string
+		lineageTag: c968533b-d37e-4963-8daa-b0e9399e9552
+		summarizeBy: none
+		sourceColumn: IsRacialized
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is2SLGBTQIA
+		dataType: string
+		lineageTag: 159fe7c6-0582-4d04-8d7a-06db9dbe52ce
+		summarizeBy: none
+		sourceColumn: Is2SLGBTQIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column Province
+		dataType: string
+		lineageTag: 44832197-a4ed-43db-bd80-2485a49c59f6
+		summarizeBy: none
+		sourceColumn: Province
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 860cd9e3-8cdf-45f5-a8b3-b7b6bac5c6cf
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 62db9197-7fcd-47c8-bc67-fb1fe37ad6b6
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column PostalCode
+		dataType: string
+		lineageTag: 2c6f0b23-70ce-4e22-bd80-7da20d5b31ed
+		summarizeBy: none
+		sourceColumn: PostalCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column PostalCodeForwardSortationArea
+		dataType: string
+		lineageTag: 80665720-0eec-4355-b0cc-37d49949ae26
+		summarizeBy: none
+		sourceColumn: PostalCodeForwardSortationArea
+
+		annotation SummarizationSetBy = Automatic
+
+	column HighSchool
+		dataType: string
+		lineageTag: ae28d518-6fff-493e-bbfe-19cf9e1f4ec4
+		summarizeBy: none
+		sourceColumn: HighSchool
+
+		annotation SummarizationSetBy = Automatic
+
+	column PreviousPostSecondary
+		dataType: string
+		lineageTag: ce030e3a-6630-4c27-b0a4-5714b3b0b611
+		summarizeBy: none
+		sourceColumn: PreviousPostSecondary
+
+		annotation SummarizationSetBy = Automatic
+
+	column ManitobaStudentNumber
+		dataType: string
+		lineageTag: 14504849-4fa5-49dd-9e9e-567511f396db
+		summarizeBy: none
+		sourceColumn: ManitobaStudentNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column HomeCountryName
+		dataType: string
+		lineageTag: 0755222a-aae6-4f19-a36e-18489a525405
+		summarizeBy: none
+		sourceColumn: HomeCountryName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CitizenshipName
+		dataType: string
+		lineageTag: cd81f35a-74b8-4064-8182-bb883c0b6a58
+		summarizeBy: none
+		sourceColumn: CitizenshipName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProvinceName
+		dataType: string
+		lineageTag: 5e7e5991-1d8e-4730-885d-1c859aebeb57
+		summarizeBy: none
+		sourceColumn: ProvinceName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		lineageTag: 6ba83ee9-445f-4bcd-8bbc-5ae12d708874
+		summarizeBy: none
+		sourceColumn: Gender
+		sortByColumn: Gender_Order
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column person_pk
+		dataType: string
+		lineageTag: 585c620c-2c5a-4166-badd-a3961b732fe9
+		summarizeBy: none
+		sourceColumn: person_pk
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimStudent = m
+		mode: import
+		queryGroup: Dimensions
+		source = ```
+				let
+				    Source = Sql.Database(Server, DataBase), 
+				    Query=
+				    "
+				        WITH Temp AS (
+				            SELECT 
+				                edw.person_id,
+				                ds.* 
+				            FROM DimStudent ds
+				            JOIN edw.dbo.PERSON_EDWT edw
+				                ON edw.person_pk = ds.person_pk
+				            WHERE ds.CurrentFlag = 1
+				        ),
+				        TempA AS (
+				            SELECT
+				            -- Replace isInternational values
+				                CASE
+				                    WHEN ta.isInternational = 'No' THEN 'Domestic' 
+				                    WHEN ta.isInternational = 'Yes' THEN 'International'
+				                    ELSE ta.isInternational
+				                END AS New_isInternational,
+				
+				                -- Replace Gender values
+				                CASE
+				                    WHEN ta.Gender = 'Unspecified' THEN 'Undeclared' 
+				                    ELSE ta.Gender
+				                END AS New_Gender,
+				                -- Add Gender Order
+				                CASE
+				                    WHEN ta.Gender = 'Female' THEN 1
+				                    WHEN ta.Gender = 'Male' THEN 2
+				                    WHEN ta.Gender = 'Gender Diverse' THEN 3
+				                    ELSE 4
+				                END AS Gender_Order,
+				                        ta.*
+				            FROM Temp ta
+				                
+				        )
+				        SELECT 
+				        *
+				        FROM TempA;
+				    ",
+				    Result = Value.NativeQuery(Source, Query),
+				    #"Check No Rows" = Table.RowCount( Result),
+				    #"SQL Result" = Result,
+				    #"Removed Other Columns" = Table.SelectColumns(#"SQL Result",{"New_isInternational", "New_Gender", "Gender_Order", "person_id", "DimStudentKey", "person_pk", "Gender", "Birthday", "EntryAge", "EntryAgeGroup", "isIndigenous", "isIndigenousStatus", "isIndigenousNonStatus", "isMetis", "isInuit", "isNewCanadian", "HomeCountry", "Citizenship", "HasDisability", "IsRacialized", "Is2SLGBTQIA", "Province", "City", "Region", "PostalCode", "PostalCodeForwardSortationArea", "HighSchool", "PreviousPostSecondary", "ManitobaStudentNumber", "HomeCountryName", "CitizenshipName", "ProvinceName"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns",{{"Birthday", type date}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type",null,"Undeclared",Replacer.ReplaceValue,{"Citizenship"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value",null,"Undeclared",Replacer.ReplaceValue,{"CitizenshipName"})
+				in
+				    #"Replaced Value1"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

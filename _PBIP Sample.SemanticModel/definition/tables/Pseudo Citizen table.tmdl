@@ -1,0 +1,33 @@
+table 'Pseudo Citizen table'
+	lineageTag: 3ecbae49-6409-46ba-a153-4d42c10bcb97
+
+	column CitizenshipName
+		lineageTag: 23c9254c-ad07-4050-a6e3-c9a4c209c315
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DimStudent[CitizenshipName]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Pseudo Citizen table' = calculated
+		mode: import
+		source = ```
+				
+				// build a citizenship list from DimStudent, but it only keeps the students who exist in FactPrograms.
+				VAR _CitizenshipsInFact =
+				    CALCULATETABLE(                           // this returns the distinct citizenship values for that subset.
+				        DISTINCT(DimStudent[CitizenshipName]),
+				        TREATAS(                             // takes that list of person keys from FactPrograms and applies it as a filter on DimStudent[person_pk]  
+				            VALUES(FactPrograms[person_pk]), // returns the set of person_pk currently visible in context.
+				            DimStudent[person_pk])
+				    )
+				RETURN
+				UNION(
+				    _CitizenshipsInFact,
+				    DATATABLE("Citizenship", STRING, { {"Others"} }) // Adds a manual “Others” category on top of the real citizenship values.
+				)
+				
+				```
+
+	annotation PBI_Id = 9246716c8ff140a2acc46a010e8866ed
+

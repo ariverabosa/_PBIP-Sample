@@ -1,0 +1,17 @@
+DEFINE
+    MEASURE 'Measures by Year'[_CP_Unique_Students] = VAR _uniqueStudents = DISTINCTCOUNT ( FactPrograms[person_pk] )
+RETURN
+CALCULATE (
+    _uniqueStudents
+    ,
+    -- Filter fact table by ReportGroup
+    FILTER (
+        FactPrograms,
+        RELATED ( DimProgramTrack[New_ReportGroup] ) = "Credential Program"
+    )
+)
+
+EVALUATE
+    SUMMARIZECOLUMNS(
+        "_CP_Unique_Students", [_CP_Unique_Students]
+    )

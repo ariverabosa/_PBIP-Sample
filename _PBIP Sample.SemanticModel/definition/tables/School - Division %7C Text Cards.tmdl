@@ -1,0 +1,80 @@
+table 'School - Division | Text Cards'
+	lineageTag: 9c888a8d-91c2-44c1-b2ae-c49c2768c422
+
+	measure 'Main Title' = ```
+			
+			VAR _School = SELECTEDVALUE(DimOrganizationalUnit[AnalyticSchoolName], "")
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)-1
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 1, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			RETURN
+			" School Performance | " & _School //& " " & 
+			// SWITCH(
+			//         TRUE(),
+			//         _HasSession && _HasYear,       _YearName & " "&  _Session,
+			//         _HasSession && NOT _HasYear,     _Session,
+			//         NOT _HasSession && _HasYear,     _YearName
+			                                
+			//     )
+			
+			
+			
+			```
+		lineageTag: 6ea2be7b-9f20-48ed-81d2-95d3e571cf9e
+
+	measure 'Ref label main title' = ```
+			
+			VAR _School = SELECTEDVALUE(DimOrganizationalUnit[AnalyticSchoolName], "")
+			
+			VAR _maxDate = MAX(DimDate[Date])
+			VAR _year = YEAR(_maxDate)-1
+			VAR _month = MONTH(_maxDate)
+			VAR _CY_StartYear = IF(_month <= 6, _year - 1, _year)
+			VAR _CY_EndYear = _CY_StartYear + 1
+			VAR _CYNName = FORMAT(_CY_StartYear, "0000")  & "-" & FORMAT(MOD(_CY_EndYear, 100), "00")
+			
+			
+			
+			VAR _Session = SELECTEDVALUE(DimTerm[Session], "")
+			VAR _YearName = SELECTEDVALUE(DimTerm[Academic Year Name], "")
+			VAR _LYName = LOOKUPVALUE(DimTerm[LY_AcademicName], DimTerm[Academic Year Name], _YearName)
+			VAR _HasSession = _Session <> ""
+			VAR _HasYear = TRIM(_YearName) <> ""
+			
+			RETURN
+			_YearName & " " & _Session & " vs " & 
+			SWITCH(
+			        TRUE(),
+			        _HasSession && _HasYear,       _LYName & " "&  _Session,
+			        _HasSession && NOT _HasYear,     _Session,
+			        NOT _HasSession && _HasYear,     _LYName
+			                                
+			    )
+			
+			
+			
+			```
+		lineageTag: 9f1f068c-758d-4a22-906b-bf08251d018b
+
+	partition 'School - Division | Text Cards' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

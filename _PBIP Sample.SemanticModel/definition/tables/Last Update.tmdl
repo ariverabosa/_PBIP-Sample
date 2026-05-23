@@ -1,0 +1,30 @@
+table 'Last Update'
+	lineageTag: 682e671a-b1b1-402a-b614-376aae225091
+
+	column 'Local Now'
+		dataType: dateTime
+		formatString: mmmm d\, yyyy
+		lineageTag: 143a0192-a171-4ae5-bfdb-4969fd6753fc
+		summarizeBy: none
+		sourceColumn: Local Now
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	partition 'Last Update' = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = DateTime.LocalNow(),
+				    Custom1 = #table(1, {{Source}}),
+				    #"Renamed Columns" = Table.RenameColumns(Custom1,{{"Column1", "Local Now"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Local Now", type datetime}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

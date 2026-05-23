@@ -1,0 +1,1854 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "Bookmark 1",
+  "name": "93a96fc41f1bf3208de4",
+  "options": {
+    "applyOnlyToTargetVisuals": true,
+    "targetVisualNames": [],
+    "suppressDisplay": true
+  },
+  "explorationState": {
+    "version": "1.11",
+    "activeSection": "4277fc586ccbb62aa1e0",
+    "filters": {
+      "byExpr": [
+        {
+          "name": "cade2c8110cc900050ed",
+          "type": "Categorical",
+          "expression": {
+            "Column": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "DimTerm"
+                }
+              },
+              "Property": "Academic Year Name"
+            }
+          },
+          "howCreated": 1
+        },
+        {
+          "name": "cde1facdc63b0ad66391",
+          "type": "Categorical",
+          "filter": {
+            "Version": 2,
+            "From": [
+              {
+                "Name": "d",
+                "Entity": "DimProgramTrack",
+                "Type": 0
+              }
+            ],
+            "Where": [
+              {
+                "Condition": {
+                  "In": {
+                    "Expressions": [
+                      {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Source": "d"
+                            }
+                          },
+                          "Property": "ReportGroup"
+                        }
+                      }
+                    ],
+                    "Values": [
+                      [
+                        {
+                          "Literal": {
+                            "Value": "'Credential Program'"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "expression": {
+            "Column": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "DimProgramTrack"
+                }
+              },
+              "Property": "ReportGroup"
+            }
+          },
+          "howCreated": 1
+        }
+      ]
+    },
+    "sections": {
+      "4277fc586ccbb62aa1e0": {
+        "filters": {
+          "byExpr": [
+            {
+              "name": "daeb24df7ad95a846730",
+              "type": "Categorical",
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "d",
+                    "Entity": "DimStudent",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "Not": {
+                        "Expression": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "d"
+                                    }
+                                  },
+                                  "Property": "isIndigenous"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "null"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "expression": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimStudent"
+                    }
+                  },
+                  "Property": "isIndigenous"
+                }
+              },
+              "howCreated": 1
+            }
+          ]
+        },
+        "visualContainers": {
+          "01a80f73eb883d1ac751": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "b5e0fd50fcf9ccec52f5",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Core measures"
+                        }
+                      },
+                      "Property": "Distinct Students DaysBetween"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Core measures"
+                        }
+                      },
+                      "Property": "Distinct Students DaysBetween"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "021bff767b3effd3bb35": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "0f6eae9b8e628e7b6f26": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "56c805b3f4b8d91edee0",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "DimOrganizationalUnit",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "AnalyticSchoolName"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimOrganizationalUnit"
+                        }
+                      },
+                      "Property": "AnalyticSchoolName"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimOrganizationalUnit"
+                        }
+                      },
+                      "Property": "AnalyticSchoolName"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "1c033d38bfadd6894810": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d4bf6b42e9a086e20915",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Core Time Intelligence"
+                        }
+                      },
+                      "Property": "Number Change Distinct Count Students"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Core Time Intelligence"
+                        }
+                      },
+                      "Property": "Number Change Distinct Count Students"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "218ee755283a54bba5d0": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "673e6d7a79e7641b3635",
+                  "type": "Advanced",
+                  "expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "Last Update"
+                            }
+                          },
+                          "Property": "Local Now"
+                        }
+                      },
+                      "Function": 3
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "Last Update"
+                            }
+                          },
+                          "Property": "Local Now"
+                        }
+                      },
+                      "Function": 3
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "236fd70080b4c473397c": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "56c805b3f4b8d91edee0",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "DimOrganizationalUnit",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "AnalyticSchoolName"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimOrganizationalUnit"
+                        }
+                      },
+                      "Property": "AnalyticSchoolName"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "4059f1c9f8dae8e60c2e",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimOrganizationalUnit"
+                        }
+                      },
+                      "Property": "AnalyticLeaderPortfolio"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimOrganizationalUnit"
+                        }
+                      },
+                      "Property": "AnalyticLeaderPortfolio"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "2695a8ef6915c0c7eafb": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "c5e8a5be58e7feb32476",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimTerm"
+                        }
+                      },
+                      "Property": "Academic Year Name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "959ce6ba499adc334544",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Text Cards / Line & Bar Chart"
+                        }
+                      },
+                      "Property": "Selected Percentage"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "65c81d7968d23a0f9f06",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Core measures"
+                        }
+                      },
+                      "Property": "Distinct Students DaysBetween"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "areaChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimTerm"
+                        }
+                      },
+                      "Property": "Academic Year Name"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimTerm"
+                        }
+                      },
+                      "Property": "Academic Year Name"
+                    }
+                  }
+                ]
+              },
+              "projections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimTerm"
+                        }
+                      },
+                      "Property": "Academic Year Name"
+                    }
+                  }
+                ],
+                "Tooltips": [
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Text Cards / Line & Bar Chart"
+                        }
+                      },
+                      "Property": "Selected Percentage"
+                    }
+                  }
+                ],
+                "Y": [
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Core measures"
+                        }
+                      },
+                      "Property": "Distinct Students DaysBetween"
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "Series": [
+                  {
+                    "expr": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Parameter Total Students"
+                          }
+                        },
+                        "Property": "Parameter"
+                      }
+                    },
+                    "index": 0,
+                    "length": 0
+                  }
+                ]
+              }
+            }
+          },
+          "4adeba74701025f50d5d": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "4e6f5d4234f4d25166d5": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "6ac020d03edd6177a544",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Demographic Measures"
+                        }
+                      },
+                      "Property": "Distinct Students, International"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Demographic Measures"
+                        }
+                      },
+                      "Property": "Distinct Students, International"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "59be2166b30b9379cab8": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "6b05c7f7d4b714766c9e": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "f71147473ab000e816cb",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Support Measures"
+                        }
+                      },
+                      "Property": "Overview Title"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Support Measures"
+                        }
+                      },
+                      "Property": "Overview Title"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "73690b8e1566b7076b64": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "15a458d3f70f75a7d485",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimTerm"
+                        }
+                      },
+                      "Property": "Session"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimTerm"
+                        }
+                      },
+                      "Property": "Session"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "a5367555edd13012fb6a": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "aa6f895f856d1e696db4": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "811494dbb9ee78a43798",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimTerm"
+                        }
+                      },
+                      "Property": "Academic Year Name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "5b54a492ee0b29f40585",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimProgramTrack"
+                        }
+                      },
+                      "Property": "FamilyAcademicProgramTitle"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "56ffe41d461a829606e2",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimProgramTrack"
+                        }
+                      },
+                      "Property": "ProgramTitle"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f3bf9e9ba97bf3b63d45",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Demographic Measures"
+                        }
+                      },
+                      "Property": "Distinct Students, Domestic (Non-Indigenous)"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimProgramTrack"
+                        }
+                      },
+                      "Property": "FamilyAcademicProgramTitle"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Columns": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimTerm"
+                        }
+                      },
+                      "Property": "Academic Year Name"
+                    }
+                  }
+                ],
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimProgramTrack"
+                        }
+                      },
+                      "Property": "FamilyAcademicProgramTitle"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "DimProgramTrack.FamilyAcademicProgramTitle"
+                      ],
+                      "isCollapsed": true,
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "DimProgramTrack"
+                              }
+                            },
+                            "Property": "FamilyAcademicProgramTitle"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "DimProgramTrack.ProgramTitle"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": []
+                  }
+                }
+              ],
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "adbed31b80028461c7fb": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "af6dfcfcfe37ca1c2255": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "b07b4c994fd52889e136": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "56c805b3f4b8d91edee0",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "DimOrganizationalUnit",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "AnalyticSchoolName"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimOrganizationalUnit"
+                        }
+                      },
+                      "Property": "AnalyticSchoolName"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "66b6cd5f11c4122c2e29",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimOrganizationalUnit"
+                        }
+                      },
+                      "Property": "AnalyticDivisionName"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimOrganizationalUnit"
+                        }
+                      },
+                      "Property": "AnalyticDivisionName"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "b6bd884801c6a020a676": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "c0d4968776ed077bcddc": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "c50fd2eb574d47f540b4": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "c7607d12f1e7e6f42337": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "c9d1af188f9fa2f48fc6": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "6c5c9ed31ecdf9a1b777",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimTerm"
+                        }
+                      },
+                      "Property": "Academic Year Name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d",
+                                "Entity": "DimTerm",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "d"
+                                            }
+                                          },
+                                          "Property": "Academic Year Name"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'2025-26'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimTerm"
+                        }
+                      },
+                      "Property": "Academic Year Name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "d18678aba2bed0fe091d": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "b80a3f5eb80d7ab103c9",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Demographic Measures"
+                        }
+                      },
+                      "Property": "Distinct Students, Indigenous"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Demographic Measures"
+                        }
+                      },
+                      "Property": "Distinct Students, Indigenous"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "df2ca01cfbcf5285ed85": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "1ddd2bfc23f7ac975a72",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Demographic Measures"
+                        }
+                      },
+                      "Property": "Distinct Students, Domestic"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Demographic Measures"
+                        }
+                      },
+                      "Property": "Distinct Students, Domestic"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "e34a72b2b17b019c76fe": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "dd0b2b28e5d4c4745d5b",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "DimOrganizationalUnit",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "AnalyticSchoolName"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimOrganizationalUnit"
+                        }
+                      },
+                      "Property": "AnalyticSchoolName"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "2346f13e22a5a304dd36",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimProgramTrack"
+                        }
+                      },
+                      "Property": "FamilyAcademicProgramTitle"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "80f857a84609b4e7cece",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Core measures"
+                        }
+                      },
+                      "Property": "Distinct Students DaysBetween"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2bcad44ea20772a27f96",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Core Time Intelligence"
+                        }
+                      },
+                      "Property": "Distinct Students DaysBetween, LY"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "40d00d5c47c4c993d7a8",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Core Time Intelligence"
+                        }
+                      },
+                      "Property": "Percent Change Distinct Count Students"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "c25376788c60717b629d",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Core Time Intelligence"
+                        }
+                      },
+                      "Property": "Number Change Distinct Count Students"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimProgramTrack"
+                        }
+                      },
+                      "Property": "FamilyAcademicProgramTitle"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "DimProgramTrack.FamilyAcademicProgramTitle"
+                      ],
+                      "isCollapsed": true,
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "DimProgramTrack"
+                              }
+                            },
+                            "Property": "FamilyAcademicProgramTitle"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": []
+                  }
+                }
+              ]
+            }
+          },
+          "f330a19a4e2d229f1067": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "b686af2e36045870def2",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimOrganizationalUnit"
+                        }
+                      },
+                      "Property": "AnalyticSchoolName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "ca689b9df1f2e570bb6a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Core Time Intelligence"
+                        }
+                      },
+                      "Property": "Number Change Distinct Count Students"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredBarChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Core Time Intelligence"
+                        }
+                      },
+                      "Property": "Number Change Distinct Count Students"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimOrganizationalUnit"
+                        }
+                      },
+                      "Property": "AnalyticSchoolName"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "f7c3b904d8940d88c4d1": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "08c261810d4747ece783": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "9f00fc0c6fbc7e226d00": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "ac3e4b8fe820e808a955": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "cc545ac3837deb10f866": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "537544da1342a1f32432": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "a3ce30bdbc31b329cc24": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "75021f0fd947efd6d00e": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "90de97d94c2a69d13a61": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "ff3fae874d1ce28cc6b1": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "850f4f3538bd9bf96c57": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "dd0b2b28e5d4c4745d5b",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "DimOrganizationalUnit",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "AnalyticSchoolName"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimOrganizationalUnit"
+                        }
+                      },
+                      "Property": "AnalyticSchoolName"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "c14c6c69a8461716d34b",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimProgramTrack"
+                        }
+                      },
+                      "Property": "FamilyAcademicProgramTitle"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "fb6890ef92182acf8395",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Core measures"
+                        }
+                      },
+                      "Property": "Distinct Students DaysBetween"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f3ff0d1bc6477e1b31c7",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimTerm"
+                        }
+                      },
+                      "Property": "Academic Year Name"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimProgramTrack"
+                        }
+                      },
+                      "Property": "FamilyAcademicProgramTitle"
+                    }
+                  }
+                ],
+                "Columns": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimTerm"
+                        }
+                      },
+                      "Property": "Academic Year Name"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "DimProgramTrack.FamilyAcademicProgramTitle"
+                      ],
+                      "isCollapsed": true,
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "DimProgramTrack"
+                              }
+                            },
+                            "Property": "FamilyAcademicProgramTitle"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": []
+                  }
+                }
+              ],
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          }
+        },
+        "visualContainerGroups": {
+          "94d4d96369435e1da85d": {
+            "isHidden": false
+          },
+          "28c6e0c03a887e13e3ba": {
+            "isHidden": true
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

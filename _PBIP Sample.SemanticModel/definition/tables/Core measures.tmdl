@@ -1,0 +1,45 @@
+table 'Core measures'
+	lineageTag: 58bca47a-7d03-4e15-afbb-4ab49c719686
+
+	/// Counts the number of distinct students in the current filter context.
+	measure 'Distinct Students DaysBetween' = ```
+			
+			VAR ValidTerms = VALUES(DimTerm[DimTermKey])
+			VAR _total = 
+			CALCULATE(
+			    DISTINCTCOUNT(FactPrograms[person_pk]),
+			    FactPrograms[DaysBetween] > 4,
+			    FactPrograms[DimTermKey] <> -1,
+			    KEEPFILTERS( FactPrograms[DimTermKey] IN ValidTerms )
+			)
+			RETURN
+			//IF (_total < 5, BLANK(), _total)
+			_total
+			```
+		formatString: #,0
+		lineageTag: 9f16168e-2b1a-46d5-b09a-4a7a07dd1416
+
+	measure 'Count Students' = COUNT(FactPrograms[person_pk])
+		formatString: 0
+		lineageTag: d01bd4c3-0b54-4e3b-bd92-48b4d2a517ca
+
+	measure 'Distinc Students' =
+			
+				CALCULATE(
+			     DISTINCTCOUNT ( FactPrograms[person_pk] ),
+			     FactPrograms[DaysBetween] > 4 )
+		formatString: 0
+		lineageTag: e59d2e4e-bcfc-48d3-81d7-a7dd2787a125
+
+	partition 'Core measures' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+
