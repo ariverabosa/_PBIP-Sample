@@ -1,4 +1,4 @@
-expression Server = "ColleagueReporting" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression Server = "SampleSqlServer" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 332488e7-6813-4d98-b614-c05cd6c10ace
 	queryGroup: Parameters
 
@@ -6,7 +6,7 @@ expression Server = "ColleagueReporting" meta [IsParameterQuery=true, Type="Any"
 
 	annotation PBI_ResultType = Text
 
-expression DataBase = "Warehouse" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression DataBase = "SampleWarehouse" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 623b5663-3c7a-48c2-ac56-dac70ab8a588
 	queryGroup: Parameters
 
