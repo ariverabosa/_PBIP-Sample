@@ -61,4 +61,4 @@ Examples of questions addressed in this project:
 
 ## Notes
 
-This repository is intended for portfolio and learning purposes to demonstrate Business Intelligence and Power BI development practices.
+This repository is intended for portfolio to demonstrate Business Intelligence and Power BI development practices.
