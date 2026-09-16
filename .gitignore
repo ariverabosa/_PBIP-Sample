@@ -1,2 +1,9 @@
 **/.pbi/localSettings.json
 **/.pbi/cache.abf
+**/.pbi/cache/
+**/.pbi/TempSaves/
+*.bak
+*.tmp
+*.log
+Thumbs.db
+desktop.ini

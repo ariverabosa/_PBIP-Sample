@@ -1,7 +1,0 @@
-DEFINE
-    MEASURE 'Measures by Year'[Unique_Students_CY] = DISTINCTCOUNT ( FactPrograms[person_pk] )
-
-EVALUATE
-    SUMMARIZECOLUMNS(
-        "Unique_Students_CY", [Unique_Students_CY]
-    )
